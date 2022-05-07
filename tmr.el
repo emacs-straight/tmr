@@ -253,6 +253,19 @@ Optionally include DESCRIPTION."
                  (format " [%s]" (propertize description 'face 'bold))
                ""))))
 
+(defvar tmr--duration-hist '()
+  "Minibuffer history of `tmr' durations.")
+
+(defun tmr--read-duration ()
+  "Ask the user to type a duration."
+  (let ((def (nth 0 tmr--duration-hist)))
+    (read-string
+     (if def
+         (format "N minutes for timer (append `h' or `s' for other units) [%s]: " def)
+       "N minutes for timer (append `h' or `s' for other units): ")
+     nil
+     'tmr--duration-hist def)))
+
 (defvar tmr--description-hist '()
   "Minibuffer history of `tmr' descriptions.")
 
@@ -260,7 +273,9 @@ Optionally include DESCRIPTION."
   "Helper prompt for descriptions in `tmr'."
   (let ((def (nth 0 tmr--description-hist)))
     (completing-read
-     (format "Description for this tmr [%s]: " def)
+     (if def
+         (format "Description for this tmr [%s]: " def)
+       "Description for this tmr: ")
      tmr-descriptions-list nil nil nil
      'tmr--description-hist def)))
 
@@ -285,7 +300,7 @@ To always prompt for a DESCRIPTION when setting a timer, use the
 command `tmr-with-description' instead of this one."
   (interactive
    (list
-    (read-string "N minutes for timer (append `h' or `s' for other units): ")
+    (tmr--read-duration)
     (when current-prefix-arg (tmr--description-prompt))))
   (let* ((start (format-time-string "%T"))
          (unit (tmr--unit time))
@@ -311,7 +326,7 @@ asks for a description whereas `tmr' only asks for it when the
 user uses a prefix argument (\\[universal-argument])."
   (interactive
    (list
-    (read-string "N minutes for timer (append `h' or `s' for other units): ")
+    (tmr--read-duration)
     (tmr--description-prompt)))
   (tmr time description))
 
