@@ -7,7 +7,7 @@
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://git.sr.ht/~protesilaos/tmr
 ;; Mailing list: https://lists.sr.ht/~protesilaos/tmr
-;; Version: 0.2.3
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, timer
 
@@ -193,6 +193,7 @@ Populated by `tmr' and then operated on by `tmr-cancel'.")
 
 (declare-function cl-find "cl-seq" (cl-item cl-seq &rest cl-keys))
 (declare-function cl-delete "cl-seq" (cl-item cl-seq &rest cl-keys))
+(declare-function cl-delete-if "cl-seq" (cl-pred cl-list &rest cl-keys))
 (declare-function cl-remove-if "cl-seq" (cl-pred cl-list &rest cl-keys))
 
 (defun tmr--active-timers ()
@@ -222,6 +223,11 @@ With optional NO-HOOKS refrain from calling
     (unless no-hooks
       (run-hook-with-args 'tmr-timer-cancelled-functions timer))))
 
+(defun tmr-remove-finished ()
+  "Remove all finished timers."
+  (interactive)
+  (setq tmr--timers (cl-delete-if #'tmr--timer-donep tmr--timers)))
+
 (defun tmr--read-timer (&optional active description)
   "Let the user choose a timer among all timers.
 Return the selected timer.  If there is a single timer, use that.
@@ -243,7 +249,7 @@ completion candidates."
       (let* ((formatter (or description #'tmr--long-description))
              (timer-descriptions (mapcar formatter timers))
              (selection (completing-read "Timer: " timer-descriptions nil t)))
-        (cl-find selection timers :test #'string= :key #'tmr--long-description))))))
+        (cl-find selection timers :test #'string= :key formatter))))))
 
 (defun tmr-print-message-for-created-timer (timer)
   "Show a `message' informing the user that TIMER was created."
@@ -276,16 +282,19 @@ If DEFAULT is provided, use that as a default."
 
 (defun tmr--description-prompt (&optional default)
   "Helper prompt for descriptions in `tmr'.
-If optional DEFAULT is provided use it as a default.  Otherwise
-use the latest input from the `tmr--description-hist', if
-present."
-  (let ((def (or default (nth 0 tmr--description-hist))))
-    (completing-read
-     (if def
-         (format "Description for this tmr [%s]: " def)
-       "Description for this tmr: ")
-     tmr-descriptions-list nil nil nil
-     'tmr--description-hist def)))
+If optional DEFAULT is provided use it as a default candidate."
+  (completing-read
+   (if default
+       (format "Description for this tmr [%s]: " default)
+     "Description for this tmr: ")
+   (lambda (string predicate action)
+     (if (eq action 'metadata)
+         `(metadata (display-sort-function . ,#'identity)
+                    (cycle-sort-function . ,#'identity))
+       (complete-with-action
+        action tmr-descriptions-list string predicate)))
+   nil nil nil
+   'tmr--description-hist default))
 
 (defun tmr--complete (timer)
   "Mark TIMER as completed and execute `tmr-timer-completed-functions'."

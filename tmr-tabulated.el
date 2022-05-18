@@ -7,7 +7,7 @@
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://git.sr.ht/~protesilaos/tmr
 ;; Mailing list: https://lists.sr.ht/~protesilaos/tmr
-;; Version: 0.2.3
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "27.1"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -64,6 +64,7 @@
 (defvar tmr-tabulated-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map "k" #'tmr-tabulated-cancel)
+    (define-key map "K" #'tmr-tabulated-remove-finished)
     (define-key map "+" #'tmr)
     (define-key map "c" #'tmr-tabulated-clone)
     (define-key map "w" #'tmr-tabulated-rewrite-description)
@@ -90,6 +91,12 @@ Optional NO-HOOKS has the same meaning as in `tmr-cancel'."
   (tmr-cancel timer no-hooks)
   ;; avoid point moving back to the beginning of the buffer:
   (tmr-tabulated--move-point-to-closest-entry)
+  (revert-buffer))
+
+(defun tmr-tabulated-remove-finished ()
+  "Remove all finished timers."
+  (interactive)
+  (tmr-remove-finished)
   (revert-buffer))
 
 (defun tmr-tabulated-clone (timer)
