@@ -63,12 +63,15 @@
 
 (defvar tmr-tabulated-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map "k" #'tmr-tabulated-cancel)
-    (define-key map "K" #'tmr-tabulated-remove-finished)
+    (define-key map "k" #'tmr-cancel)
+    (define-key map "K" #'tmr-remove-finished)
     (define-key map "+" #'tmr)
-    (define-key map "c" #'tmr-tabulated-clone)
-    (define-key map "w" #'tmr-tabulated-rewrite-description)
-    (define-key map "s" #'tmr-tabulated-reschedule)
+    (define-key map "t" #'tmr)
+    (define-key map "*" #'tmr-with-description)
+    (define-key map "T" #'tmr-with-description)
+    (define-key map "c" #'tmr-clone)
+    (define-key map "e" #'tmr-edit-description)
+    (define-key map "s" #'tmr-reschedule)
     map)
   "Keybindings for `tmr-tabulated-mode-map'.")
 
@@ -82,77 +85,28 @@
   (add-hook 'tabulated-list-revert-hook #'tmr-tabulated--set-entries nil t)
   (tabulated-list-init-header))
 
-(defun tmr-tabulated-cancel (timer &optional no-hooks)
-  "Stop TIMER and remove it from the list.
-Interactively, use the timer at point.
-
-Optional NO-HOOKS has the same meaning as in `tmr-cancel'."
-  (interactive (list (tmr-tabulated--get-timer-at-point) current-prefix-arg))
-  (tmr-cancel timer no-hooks)
-  ;; avoid point moving back to the beginning of the buffer:
-  (tmr-tabulated--move-point-to-closest-entry)
-  (revert-buffer))
-
-(defun tmr-tabulated-remove-finished ()
-  "Remove all finished timers."
-  (interactive)
-  (tmr-remove-finished)
-  (revert-buffer))
-
-(defun tmr-tabulated-clone (timer)
-  "Create a new timer by cloning TIMER.
-Interactively, use the timer at point."
-  (interactive (list (tmr-tabulated--get-timer-at-point)))
-  (tmr-clone timer)
-  (revert-buffer))
-
-(defun tmr-tabulated-reschedule (timer)
-  "Reschedule TIMER.
-This is the same as cloning it and cancelling the original one.
-
-If TIMER has a description, prompt for one.  Otherwise only
-prompt for a duration."
-  (interactive (list (tmr-tabulated--get-timer-at-point)))
-  (tmr-clone timer :prompt)
-  ;; Cancel the old timer
-  (tmr-tabulated-cancel timer :no-hooks))
-
-(defun tmr-tabulated-rewrite-description (timer description)
-  "Change TIMER description with that of DESCRIPTION."
-  (interactive
-   (list
-    (tmr-tabulated--get-timer-at-point)
-    (tmr--description-prompt)))
-  (setf (tmr--timer-description timer) description)
-  (revert-buffer))
-
-(defun tmr-tabulated--move-point-to-closest-entry ()
-  "Move the point to the next entry if there is one or to the previous one.
-Point isn't moved if point is on the only entry."
-  (if (tmr-tabulated--next-entry)
-      (forward-line 1)
-    (when (tmr-tabulated--previous-entry)
-      (forward-line -1))))
-
-(defun tmr-tabulated--previous-entry ()
-  "Return the entry on the line before point, nil if none."
-  (save-excursion
-    (setf (point) (line-beginning-position))
-    (unless (bobp)
-      (forward-line -1)
-      (tabulated-list-get-id))))
-
-(defun tmr-tabulated--next-entry ()
-  "Return the entry on the line after point, nil if none."
-  (save-excursion
-    (setf (point) (line-end-position))
-    (unless (eobp)
-      (forward-line 1)
-      (tabulated-list-get-id))))
-
-(defun tmr-tabulated--get-timer-at-point ()
+(defun tmr-tabulated--timer-at-point ()
   "Return the timer on the current line or nil."
-  (tmr--get-timer-by-creation-date (tabulated-list-get-id)))
+  (and (eq major-mode #'tmr-tabulated-mode)
+       (cl-find (tabulated-list-get-id) tmr--timers :key #'tmr--timer-creation-date)))
+
+(defun tmr-tabulated--refresh ()
+  "Refresh *tmr-tabulated-view* buffer if it exists."
+  (when-let (buf (get-buffer "*tmr-tabulated-view*"))
+    (with-current-buffer buf
+      (let ((lines (line-number-at-pos)))
+        (revert-buffer)
+        (when (and (bobp) (> lines 1))
+          (forward-line (1- lines))
+          (unless (tabulated-list-get-id)
+            (forward-line -1)))))))
+
+(add-hook 'tmr--update-hook #'tmr-tabulated--refresh)
+(add-hook 'tmr--read-timer-hook #'tmr-tabulated--timer-at-point)
+
+(make-obsolete 'tmr-tabulated-clone #'tmr-clone "0.4.0")
+(make-obsolete 'tmr-tabulated-edit-description #'tmr-edit-description "0.4.0")
+(make-obsolete 'tmr-tabulated-reschedule #'tmr-reschedule "0.4.0")
 
 (provide 'tmr-tabulated)
 ;;; tmr-tabulated.el ends here
