@@ -4,9 +4,8 @@
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>,
 ;;         Damien Cassou <damien@cassou.me>
-;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
+;; Maintainer: TMR Development <~protesilaos/tmr@lists.sr.ht>
 ;; URL: https://git.sr.ht/~protesilaos/tmr
-;; Mailing list: https://lists.sr.ht/~protesilaos/tmr
 ;; Version: 0.3.1
 ;; Package-Requires: ((emacs "27.1"))
 
@@ -38,7 +37,6 @@
 
 ;;; Code:
 (require 'tmr)
-(require 'tmr-sound)
 (require 'notifications)
 
 (defcustom tmr-notification-urgency 'normal
@@ -60,7 +58,7 @@ such notifications."
 Read: (info \"(elisp) Desktop Notifications\") for details."
   (if (featurep 'dbusbind)
       (let ((title "TMR May Ring (Emacs tmr package)")
-            (body (tmr--long-description-for-completed-timer timer)))
+            (body (tmr--long-description-for-finished-timer timer)))
         (notifications-notify
          :title title
          :body body
