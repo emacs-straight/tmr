@@ -1,27 +1,21 @@
-#+title: TMR May Ring
-#+author: Protesilaos Stavrou
-#+email: info@protesilaos.com
-#+language: en
-#+options: ':t toc:nil author:t email:t num:t
-#+startup: content
-
-#+macro: stable-version 0.3.0
-#+macro: release-date 2022-05-17
-#+macro: development-version 0.4.0-dev
-#+macro: file @@texinfo:@file{@@$1@@texinfo:}@@
-#+macro: space @@texinfo:@: @@
-#+macro: kbd @@texinfo:@kbd{@@$1@@texinfo:}@@
-
-#+export_file_name: tmr.texi
-
-#+texinfo_filename: tmr.info
-#+texinfo_dir_category: Emacs misc features
-#+texinfo_dir_title: TMR May Ring: (tmr)
-#+texinfo_dir_desc: Set timers using a convenient notation
-#+texinfo_header: @set MAINTAINERSITE @uref{https://protesilaos.com,maintainer webpage}
-#+texinfo_header: @set MAINTAINER Protesilaos Stavrou
-#+texinfo_header: @set MAINTAINEREMAIL @email{info@protesilaos.com}
-#+texinfo_header: @set MAINTAINERCONTACT @uref{mailto:info@protesilaos.com,contact the maintainer}
+#+title:                 TMR May Ring
+#+author:                Protesilaos Stavrou
+#+email:                 info@protesilaos.com
+#+language:              en
+#+options:               ':t toc:nil author:t email:t num:t
+#+startup:               content
+#+macro:                 stable-version 0.3.0
+#+macro:                 release-date 2022-05-17
+#+macro:                 development-version 0.4.0-dev
+#+export_file_name:      tmr.texi
+#+texinfo_filename:      tmr.info
+#+texinfo_dir_category:  Emacs misc features
+#+texinfo_dir_title:     TMR May Ring: (tmr)
+#+texinfo_dir_desc:      Set timers using a convenient notation
+#+texinfo_header:        @set MAINTAINERSITE @uref{https://protesilaos.com,maintainer webpage}
+#+texinfo_header:        @set MAINTAINER Protesilaos Stavrou
+#+texinfo_header:        @set MAINTAINEREMAIL @email{info@protesilaos.com}
+#+texinfo_header:        @set MAINTAINERCONTACT @uref{mailto:info@protesilaos.com,contact the maintainer}
 
 This manual, written by Protesilaos Stavrou, describes the customization
 options for =tmr= (or TMR, TMR May Ring, ...), and provides every other
@@ -88,6 +82,11 @@ The input can be a floating point:
 | 1.5   | 1.5 minutes (90 seconds) |
 | 1.5h  | 1.5 hours (90 minutes)   |
 
+The input can also be an absolute time, such as =16:00= or =16:00:30=.
+It sets a timer from present time until the one specified.
+
+[ Absolute time support is part of {{{development-version}}} ]
+
 If ~tmr~ is called with an optional prefix argument (=C-u= with default
 key bindings), it asks for a description to be associated with the given
 timer.
@@ -112,14 +111,22 @@ is bound to =C-h e= by default.  To check all timers, use the command
 ~tmr-tabulated-view~, which has more features than the generic
 =*Messages*= buffer ([[#h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a][Grid view]]).
 
+[ The ~tmr-cancel~ has been reviewed as part of {{{development-version}}} ]
+
 #+findex: tmr-cancel
-The ~tmr-cancel~ command cancels running timers and erases them from the
-list of created timer objects.  If there is only one timer, it cancels
-it outright.  If there are multiple running timers, it produces a
-minibuffer completion prompt, asking for one among them.  Timers at the
-completion prompt are described by the exact time they were set and the
-input that was used to create them, including the optional description
-that ~tmr~ and ~tmr-with-description~ accept.
+The ~tmr-cancel~ command cancels running timers without erasesing them
+from the list of created timer objects.  If there is only one timer, it
+cancels it outright.  If there are multiple running timers, it produces
+a minibuffer completion prompt, asking for one among them.  Timers at
+the completion prompt are described by the exact time they were set and
+the input that was used to create them, including the optional
+description that ~tmr~ and ~tmr-with-description~ accept.
+
+[ The ~tmr-remove~ is introduced by {{{development-version}}} ]
+
+#+findex: tmr-remove
+This is like ~tmr-cancel~, except it is not limited to active timers: it
+can target elapsed ones as well.
 
 #+findex: tmr-clone
 The ~tmr-clone~ command directly copies the duration and optional
@@ -169,24 +176,9 @@ From the =*tmr-tabulated-view*= buffer, invoke the command
 applicable functionality, such as how to expand/contract columns and
 toggle their sort.
 
-While in this grid view, one can perform several operations on timers:
-
-[ Updated as part of {{{development-version}}} ]
-
-# If you are reading the Org source, the `tmr-with-description' is bound
-# to *.  The comma escapes the asterisk as it has a special meaning in
-# tables.
-| Key | Command              |
-|-----+----------------------|
-| t   | tmr                  |
-| T   | tmr-with-description |
-| +   | tmr                  |
-| ,*  | tmr-with-description |
-| c   | tmr-clone            |
-| e   | tmr-edit-description |
-| s   | tmr-reschedule       |
-| k   | tmr-cancel           |
-| K   | tmr-remove-finished  |
+While in this grid view, one can perform all the operations on timers we
+have already covered herein (the =C-h m= will show you their key
+bindings in this mode).
 
 ** Hooks
 :PROPERTIES:
@@ -324,7 +316,40 @@ Everything is in place to set up the package.
   (define-key map (kbd "C-c t k") #'tmr-cancel)
   (define-key map (kbd "C-c t s") #'tmr-reschedule)
   (define-key map (kbd "C-c t e") #'tmr-edit-description)
-  (define-key map (kbd "C-c t K") #'tmr-remove-finished))
+  (define-key map (kbd "C-c t r") #'tmr-remove)
+  (define-key map (kbd "C-c t R") #'tmr-remove-finished))
+#+end_src
+
+* Integration with Embark
+:PROPERTIES:
+:CUSTOM_ID: h:64711ce4-c023-4f6e-b9aa-b43942013423
+:END:
+
+[ Part of {{{development-version}}} ]
+
+The =embark= package provides standards-compliant infrastructure to run
+context-dependent actions on all sorts of targets (symbol at point,
+current completion candidate, etc.).  TMR is set up to make its timer
+objects recognisable by Embark.  All the user needs is something like
+the following glue code:
+
+#+begin_src emacs-lisp
+(defvar tmr-action-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "k" #'tmr-remove)
+    (define-key map "r" #'tmr-remove)
+    (define-key map "R" #'tmr-remove-finished)
+    (define-key map "c" #'tmr-clone)
+    (define-key map "e" #'tmr-edit-description)
+    (define-key map "s" #'tmr-reschedule)
+    map))
+
+(with-eval-after-load 'embark
+  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
+  (cl-loop
+   for cmd the key-bindings of tmr-action-map
+   if (commandp cmd) do
+   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
 #+end_src
 
 * Acknowledgements
@@ -335,10 +360,11 @@ Everything is in place to set up the package.
 
 TMR is meant to be a collective effort.  Every bit of help matters.
 
-+ Authors :: Protesilaos Stavrou (maintainer), Damien Cassou.
++ Authors :: Protesilaos Stavrou (maintainer), Damien Cassou, Daniel
+  Mendler.
 
-+ Contributions to the code or manual :: Christian Tietze, Damien
-  Cassou, Daniel Mendler, Nathan R. DeGruchy.
++ Contributions to the code or manual :: Christian Tietze, Nathan
+  R. DeGruchy.
 
 * GNU Free Documentation License
 :PROPERTIES:
