@@ -18,7 +18,7 @@
 #+texinfo_header:        @set MAINTAINERCONTACT @uref{mailto:info@protesilaos.com,contact the maintainer}
 
 This manual, written by Protesilaos Stavrou, describes the customization
-options for =tmr= (or TMR, TMR May Ring, ...), and provides every other
+options for ~tmr~ (or TMR, TMR May Ring, ...), and provides every other
 piece of information pertinent to it.  The name of the package is
 pronounced as "timer" or "T-M-R".
 
@@ -29,7 +29,7 @@ commit, is explicitly marked as such.
 
 Current development target is {{{development-version}}}.
 
-+ Package name (GNU ELPA): =tmr=
++ Package name (GNU ELPA): ~tmr~
 + Official manual: <https://protesilaos.com/emacs/tmr>
 + Change log: <https://protesilaos.com/emacs/tmr-changelog>
 + Git repo on SourceHut: <https://git.sr.ht/~protesilaos/tmr>
@@ -37,6 +37,7 @@ Current development target is {{{development-version}}}.
     + GitHub: <https://github.com/protesilaos/tmr>
     + GitLab: <https://gitlab.com/protesilaos/tmr>
 + Mailing list: <https://lists.sr.ht/~protesilaos/tmr>
++ Backronym: TMR May Ring; Timer Must Run
 
 #+toc: headlines 8 insert TOC here, with eight headline levels
 
@@ -158,8 +159,12 @@ Timers have hooks associated with their creation, cancellation, and
 completion ([[#h:c908f440-da08-462e-be4e-a61fb274ecbc][Hooks]]).  TMR can also integrate with the desktop environment
 to send notifications ([[#h:56bbbd6f-5b63-4375-9c86-e1eb231be356][Sound and desktop notifications]]).
 
-TMR does not specify any global key bindings.  The user must configure
-their own ([[#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc][Sample configuration]]).
+#+vindex: tmr-prefix-map
+TMR does not specify global key bindings.  Instead, it sets up the
+~tmr-prefix-map~, which specifies keys for the relevant commands (part
+of {{{development-version}}}).  The user has the option to either bind
+the map to a prefix key, such as =C-c t= (so ~tmr~ is =C-c t t=), or
+bind individual commands to the desired keys ([[#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc][Sample configuration]]).
 
 ** Grid view
 :PROPERTIES:
@@ -168,7 +173,8 @@ their own ([[#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc][Sample configuration]]).
 #+cindex: About tmr-tabulated and relevant commands
 
 #+findex: tmr-tabulated-view
-Timers can be viewed in a grid with ~tmr-tabulated-view~.  The data is
+Timers can be viewed in a grid with ~tmr-tabulated-view~ (alias
+~tmr-list-timers~ as part of {{{development-version}}}).  The data is
 placed in the =*tmr-tabulated-view*= buffer and looks like this:
 
 #+begin_example
@@ -283,7 +289,7 @@ configuration:
 :CUSTOM_ID: h:807c2a8c-3d49-4fb3-bfb9-84d10675c95b
 :END:
 
-The package is available as =tmr=.  Simply do:
+The package is available as ~tmr~.  Simply do:
 
 : M-x package-refresh-contents
 : M-x package-install
@@ -332,28 +338,16 @@ Everything is in place to set up the package.
 #+cindex: Package configuration
 
 #+begin_src emacs-lisp
-;; Load the `tmr' library
-(require 'tmr)
+  ;; set to nil to disable the sound
+  (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
 
-;; set to nil to disable the sound
-(setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
+  (setq tmr-notification-urgency 'normal)
 
-(setq tmr-notification-urgency 'normal)
+  ;; Read the `tmr-descriptions-list' doc string
+  (setq tmr-descriptions-list 'tmr-description-history)
 
-;; Read the `tmr-descriptions-list' doc string
-(setq tmr-descriptions-list 'tmr-description-history)
-
-;; OPTIONALLY set global key bindings:
-(let ((map global-map))
-  (define-key map (kbd "C-c t t") #'tmr)
-  (define-key map (kbd "C-c t T") #'tmr-with-description)
-  (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" mnemonic
-  (define-key map (kbd "C-c t c") #'tmr-clone)
-  (define-key map (kbd "C-c t k") #'tmr-cancel)
-  (define-key map (kbd "C-c t s") #'tmr-reschedule)
-  (define-key map (kbd "C-c t e") #'tmr-edit-description)
-  (define-key map (kbd "C-c t r") #'tmr-remove)
-  (define-key map (kbd "C-c t R") #'tmr-remove-finished))
+  ;; OPTIONALLY set global prefix bindings (autoloaded):
+  (define-key global-map "\C-ct" 'tmr-prefix-map)
 #+end_src
 
 * Integration with Embark
@@ -362,29 +356,9 @@ Everything is in place to set up the package.
 :END:
 
 The =embark= package provides standards-compliant infrastructure to run
-context-dependent actions on all sorts of targets (symbol at point,
-current completion candidate, etc.).  TMR is set up to make its timer
-objects recognisable by Embark.  All the user needs is something like
-the following glue code:
-
-#+begin_src emacs-lisp
-(defvar tmr-action-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map "k" #'tmr-remove)
-    (define-key map "r" #'tmr-remove)
-    (define-key map "R" #'tmr-remove-finished)
-    (define-key map "c" #'tmr-clone)
-    (define-key map "e" #'tmr-edit-description)
-    (define-key map "s" #'tmr-reschedule)
-    map))
-
-(with-eval-after-load 'embark
-  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
-  (cl-loop
-   for cmd the key-bindings of tmr-action-map
-   if (commandp cmd) do
-   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
-#+end_src
+context-dependent actions on all sorts of targets (symbol at point, current
+completion candidate, etc.). TMR is set up to make its timer objects
+recognisable by Embark and registers the ~tmr-action-map~ in Embark.
 
 * Acknowledgements
 :PROPERTIES:

@@ -1,4 +1,4 @@
-;;; tmr-tabulated.el --- Display timers in a tabulated list -*- lexical-binding: t -*-
+;;; tmr-tabulated.el --- Display TMR timers in a tabulated list -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020-2022  Free Software Foundation, Inc.
 
@@ -8,8 +8,6 @@
 ;; Maintainer: TMR Development <~protesilaos/tmr@lists.sr.ht>
 ;; URL: https://git.sr.ht/~protesilaos/tmr
 ;; Mailing-List: https://lists.sr.ht/~protesilaos/tmr
-;; Version: 0.4.0
-;; Package-Requires: ((emacs "27.1"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -46,6 +44,9 @@
   (interactive)
   (switch-to-buffer (get-buffer-create "*tmr-tabulated-view*"))
   (tmr-tabulated-mode))
+
+(defalias 'tmr-list-timers 'tmr-tabulated-view
+  "Alias of `tmr-tabulated-view' command.")
 
 (defun tmr-tabulated--set-entries ()
   "Set the value of `tabulated-list-entries' with timers."

@@ -471,5 +471,52 @@ ANNOTATION is an annotation function."
                     (category . ,category))
        (complete-with-action action candidates str pred))))
 
+(defvar tmr-action-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "k" #'tmr-remove)
+    (define-key map "r" #'tmr-remove)
+    (define-key map "R" #'tmr-remove-finished)
+    (define-key map "c" #'tmr-clone)
+    (define-key map "e" #'tmr-edit-description)
+    (define-key map "s" #'tmr-reschedule)
+    map)
+  "Action map for TMRs, which can be utilized by Embark.")
+
+(defvar tmr-prefix-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "+" #'tmr)
+    (define-key map "*" #'tmr-with-description)
+    (define-key map "t" #'tmr)
+    (define-key map "T" #'tmr-with-description)
+    (define-key map "l" 'tmr-tabulated-view) ;; autoloaded
+    (define-key map "c" #'tmr-clone)
+    (define-key map "s" #'tmr-reschedule)
+    (define-key map "e" #'tmr-edit-description)
+    (define-key map "r" #'tmr-remove)
+    (define-key map "R" #'tmr-remove-finished)
+    (define-key map "k" #'tmr-cancel)
+    map)
+  "Global prefix map for TMRs.
+This map should be bound to a global prefix.")
+
+;;;###autoload
+(defun tmr-prefix-map ()
+  "Helper command to autoload variable `tmr-prefix-map'."
+  (interactive)
+  ;; Redefine the prefix map and replay events
+  (fset #'tmr-prefix-map tmr-prefix-map)
+  (setq unread-command-events
+        (mapcar (lambda (ev) (cons t ev))
+                (listify-key-sequence (this-command-keys-vector)))))
+
+(defvar embark-keymap-alist)
+(defvar embark-post-action-hooks)
+(with-eval-after-load 'embark
+  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
+  (cl-loop
+   for cmd the key-bindings of tmr-action-map
+   if (commandp cmd) do
+   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+
 (provide 'tmr)
 ;;; tmr.el ends here
