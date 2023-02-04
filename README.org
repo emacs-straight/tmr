@@ -95,14 +95,25 @@ If ~tmr~ is called with an optional prefix argument (=C-u= with default
 key bindings), it asks for a description to be associated with the given
 timer.
 
-#+findex: tmr-with-description
-An alternative to the ~tmr~ command is ~tmr-with-description~.  The
+[ The ~tmr-with-details~ is part of {{{development-version}}}. ]
+
+#+findex: tmr-with-details
+An alternative to the ~tmr~ command is ~tmr-with-details~.  The
 difference between the two is that the latter always prompts for a
-description.
+description and if the timer should be acknowledged.
 
 #+findex: tmr-edit-description
 The command ~tmr-edit-description~ can change the description a given
 timer object.
+
+[ The ~tmr-toggle-acknowledge~ is part of {{{development-version}}}. ]
+
+#+findex: tmr-toggle-acknowledge
+The command ~tmr-toggle-acknowledge~ toggles the acknowledge flag of a
+given timer object.  A timer that needs to be acknowledged prompts for
+confirmation after it elapses.  The user can either confirm and thus
+dismiss the timer, or set a new duration for the next reminder, using
+the familiar TMR input.
 
 #+vindex: tmr-descriptions-list
 The user option ~tmr-descriptions-list~ defines the completion
@@ -110,7 +121,7 @@ candidates that are shown at the description prompt.  Its value can be
 either a list of strings or the symbol of a variable that holds a list
 of strings.  The default value of ~tmr-description-history~, is the name
 of a variable that contains input provided by the user at the relevant
-prompt of the ~tmr~ and ~tmr-with-description~ commands.
+prompt of the ~tmr~ and ~tmr-with-details~ commands.
 
 When the timer is set, a message is sent to the echo area recording the
 current time and the point in the future when the timer elapses.  Echo
@@ -124,7 +135,7 @@ The ~tmr-cancel~ command cancels running timers without erasesing them
 from the list of created timer objects.  Timers at the completion prompt
 are described by the exact time they were set and the input that was
 used to create them, including the optional description that ~tmr~ and
-~tmr-with-description~ accept.
+~tmr-with-details~ accept.
 
 #+findex: tmr-remove
 The ~tmr-remove~ command is like ~tmr-cancel~, except it is not limited
@@ -338,16 +349,20 @@ Everything is in place to set up the package.
 #+cindex: Package configuration
 
 #+begin_src emacs-lisp
-  ;; set to nil to disable the sound
+  ;; Set to nil to disable the sound
   (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
 
+  ;; Desktop notification urgency level
   (setq tmr-notification-urgency 'normal)
 
   ;; Read the `tmr-descriptions-list' doc string
   (setq tmr-descriptions-list 'tmr-description-history)
 
-  ;; OPTIONALLY set global prefix bindings (autoloaded):
+  ;; Set global prefix bindings (autoloaded):
   (define-key global-map "\C-ct" 'tmr-prefix-map)
+
+  ;; Alternatively bind tmr command (autoloaded):
+  (define-key global-map "\C-ct" 'tmr)
 #+end_src
 
 * Integration with Embark
