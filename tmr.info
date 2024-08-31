@@ -1,4 +1,4 @@
-This is docwWfg5a.info, produced by makeinfo version 6.8 from tmr.texi.
+This is docMYrSZD.info, produced by makeinfo version 6.8 from tmr.texi.
 
 INFO-DIR-SECTION Emacs misc features
 START-INFO-DIR-ENTRY
@@ -6,7 +6,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docwWfg5a.info,  Node: Top,  Next: COPYING,  Up: (dir)
+File: docMYrSZD.info,  Node: Top,  Next: COPYING,  Up: (dir)
 
 TMR May Ring
 ************
@@ -17,11 +17,11 @@ piece of information pertinent to it.  The name of the package is
 pronounced as “timer” or “T-M-R”.
 
    The documentation furnished herein corresponds to stable version
-0.4.0, released on 2022-07-07.  Any reference to a newer feature which
+1.0.0, released on 2024-08-30.  Any reference to a newer feature which
 does not yet form part of the latest tagged commit, is explicitly marked
 as such.
 
-   Current development target is 0.5.0-dev.
+   Current development target is 1.1.0-dev.
 
    • Package name (GNU ELPA): ‘tmr’
    • Official manual: <https://protesilaos.com/emacs/tmr>
@@ -64,7 +64,7 @@ Indices
 
 
 
-File: docwWfg5a.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
+File: docMYrSZD.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
 
 1 COPYING
 *********
@@ -83,7 +83,7 @@ Copyright (C) 2021-2023 Free Software Foundation, Inc.
      modify this GNU manual.”
 
 
-File: docwWfg5a.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
+File: docMYrSZD.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
 
 2 Overview
 **********
@@ -116,16 +116,12 @@ Input   Meaning
 default key bindings), it asks for a description to be associated with
 the given timer.
 
-   [ The ‘tmr-with-details’ is part of 0.5.0-dev.  ]
-
    An alternative to the ‘tmr’ command is ‘tmr-with-details’.  The
 difference between the two is that the latter always prompts for a
 description and if the timer should be acknowledged.
 
    The command ‘tmr-edit-description’ can change the description a given
 timer object.
-
-   [ The ‘tmr-toggle-acknowledge’ is part of 0.5.0-dev.  ]
 
    The command ‘tmr-toggle-acknowledge’ toggles the acknowledge flag of
 a given timer object.  A timer that needs to be acknowledged prompts for
@@ -183,10 +179,10 @@ environment to send notifications (*note Sound and desktop
 notifications::).
 
    TMR does not specify global key bindings.  Instead, it sets up the
-‘tmr-prefix-map’, which specifies keys for the relevant commands (part
-of 0.5.0-dev).  The user has the option to either bind the map to a
-prefix key, such as ‘C-c t’ (so ‘tmr’ is ‘C-c t t’), or bind individual
-commands to the desired keys (*note Sample configuration::).
+‘tmr-prefix-map’, which specifies keys for the relevant commands.  The
+user has the option to either bind the map to a prefix key, such as ‘C-c
+t’ (so ‘tmr’ is ‘C-c t t’), or bind individual commands to the desired
+keys (*note Sample configuration::).
 
 * Menu:
 
@@ -196,14 +192,14 @@ commands to the desired keys (*note Sample configuration::).
 * Minibuffer histories::
 
 
-File: docwWfg5a.info,  Node: Grid view,  Next: Hooks,  Up: Overview
+File: docMYrSZD.info,  Node: Grid view,  Next: Hooks,  Up: Overview
 
 2.1 Grid view
 =============
 
 Timers can be viewed in a grid with ‘tmr-tabulated-view’ (alias
-‘tmr-list-timers’ as part of 0.5.0-dev).  The data is placed in the
-‘*tmr-tabulated-view*’ buffer and looks like this:
+‘tmr-list-timers’).  The data is placed in the ‘*tmr-tabulated-view*’
+buffer and looks like this:
 
      Start      End        Remaining  Description
      10:11:49   10:11:54   ✔
@@ -231,7 +227,7 @@ we have already covered herein (the ‘C-h m’ will show you their key
 bindings in this mode).
 
 
-File: docwWfg5a.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Grid view,  Up: Overview
+File: docMYrSZD.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Grid view,  Up: Overview
 
 2.2 Hooks
 =========
@@ -256,7 +252,7 @@ TMR provides the following hooks:
      the echo area describing the timer that was cancelled.
 
 
-File: docwWfg5a.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
+File: docMYrSZD.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
 
 2.3 Sound and desktop notifications
 ===================================
@@ -282,7 +278,7 @@ functionality.  This is the norm.  If such functionality is not
 available, TMR will issue a warning informing the user accordingly.
 
 
-File: docwWfg5a.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
+File: docMYrSZD.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
 
 2.4 Minibuffer histories
 ========================
@@ -300,7 +296,7 @@ configuration:
      (add-hook 'after-init-hook #'savehist-mode)
 
 
-File: docwWfg5a.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: docMYrSZD.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 3 Installation
 **************
@@ -311,7 +307,7 @@ File: docwWfg5a.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: docwWfg5a.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docMYrSZD.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 3.1 GNU ELPA package
 ====================
@@ -330,7 +326,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docwWfg5a.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docMYrSZD.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 3.2 Manual installation
 =======================
@@ -357,7 +353,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docwWfg5a.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
+File: docMYrSZD.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
 
 4 Sample configuration
 **********************
@@ -378,7 +374,7 @@ File: docwWfg5a.info,  Node: Sample configuration,  Next: Integration with Embar
      (define-key global-map "\C-ct" 'tmr)
 
 
-File: docwWfg5a.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
+File: docMYrSZD.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
 
 5 Integration with Embark
 *************************
@@ -390,7 +386,7 @@ objects recognisable by Embark and registers the ‘tmr-action-map’ in
 Embark.
 
 
-File: docwWfg5a.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
+File: docMYrSZD.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
 
 6 Acknowledgements
 ******************
@@ -404,7 +400,7 @@ Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Nathan R.  DeGruchy.
 
 
-File: docwWfg5a.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: docMYrSZD.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 7 GNU Free Documentation License
 ********************************
@@ -886,7 +882,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docwWfg5a.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docMYrSZD.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 8 Indices
 *********
@@ -898,19 +894,19 @@ File: docwWfg5a.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docwWfg5a.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docMYrSZD.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 8.1 Function index
 ==================
 
 
-File: docwWfg5a.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docMYrSZD.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 8.2 Variable index
 ==================
 
 
-File: docwWfg5a.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docMYrSZD.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 8.3 Concept index
 =================
@@ -921,21 +917,21 @@ Tag Table:
 Node: Top215
 Node: COPYING1617
 Node: Overview2345
-Node: Grid view7194
-Node: Hooks8660
-Node: Sound and desktop notifications9657
-Node: Minibuffer histories10706
-Node: Installation11363
-Node: GNU ELPA package11550
-Node: Manual installation12108
-Node: Sample configuration12865
-Node: Integration with Embark13559
-Node: Acknowledgements14028
-Node: GNU Free Documentation License14438
-Node: Indices39781
-Node: Function index39957
-Node: Variable index40080
-Node: Concept index40225
+Node: Grid view7052
+Node: Hooks8497
+Node: Sound and desktop notifications9494
+Node: Minibuffer histories10543
+Node: Installation11200
+Node: GNU ELPA package11387
+Node: Manual installation11945
+Node: Sample configuration12702
+Node: Integration with Embark13396
+Node: Acknowledgements13865
+Node: GNU Free Documentation License14275
+Node: Indices39618
+Node: Function index39794
+Node: Variable index39917
+Node: Concept index40062
 
 End Tag Table
 

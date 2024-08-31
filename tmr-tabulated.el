@@ -45,7 +45,7 @@
   (tmr-tabulated-mode))
 
 (defalias 'tmr-list-timers 'tmr-tabulated-view
-  "Alias of `tmr-tabulated-view' command.")
+  "Alias for `tmr-tabulated-view' command.")
 
 (defun tmr-tabulated--set-entries ()
   "Set the value of `tabulated-list-entries' with timers."
@@ -58,7 +58,7 @@
         (vector (tmr--format-creation-date timer)
                 (tmr--format-end-date timer)
                 (tmr--format-remaining timer)
-                (if (tmr--timer-acknowledgep timer) "✔" "")
+                (if (tmr--timer-acknowledgep timer) tmr-finished-indicator "")
                 (or (tmr--timer-description timer) ""))))
 
 (defvar-keymap tmr-tabulated-mode-map

@@ -7,8 +7,8 @@
 ;;         Daniel Mendler <mail@daniel-mendler.de>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
-;; Version: 0.4.0
-;; Package-Requires: ((emacs "27.1") (compat "29.1.3.0"))
+;; Version: 1.0.0
+;; Package-Requires: ((emacs "27.1") (compat "30.0.0.0"))
 ;; Keywords: convenience, timer
 
 ;; This file is NOT part of GNU Emacs.
@@ -125,6 +125,53 @@ Each function must accept a timer as argument."
 Each function must accept a timer as argument."
   :type 'hook)
 
+(defcustom tmr-finished-indicator "✔"
+  "Indicator for a finished timer."
+  :package-version '(tmr . "1.0.0")
+  :type 'string)
+
+(defgroup tmr-faces ()
+  "Faces for `tmr'."
+  :link '(info-link :tag "Info Manual" "(tmr)")
+  :link '(url-link :tag "Homepage" "https://protesilaos.com/emacs/tmr")
+  :link '(emacs-library-link :tag "Library Source" "tmr.el")
+  :group 'tmr)
+
+(defface tmr-duration nil
+  "Face for styling the duration of a timer."
+  :package-version '(tmr . "1.0.0")
+  :group 'tmr-faces)
+
+(defface tmr-description '((t :inherit bold))
+  "Face for styling the description of a timer."
+  :package-version '(tmr . "1.0.0")
+  :group 'tmr-faces)
+
+(defface tmr-start-time '((t :inherit success))
+  "Face for styling the start time of a timer."
+  :package-version '(tmr . "1.0.0")
+  :group 'tmr-faces)
+
+(defface tmr-end-time '((t :inherit error))
+  "Face for styling the start time of a timer."
+  :package-version '(tmr . "1.0.0")
+  :group 'tmr-faces)
+
+(defface tmr-is-acknowledged '((t :inherit success))
+  "Face for styling the acknowledgment confirmation."
+  :package-version '(tmr . "1.0.0")
+  :group 'tmr-faces)
+
+(defface tmr-must-be-acknowledged '((t :inherit warning))
+  "Face for styling the acknowledgment confirmation."
+  :package-version '(tmr . "1.0.0")
+  :group 'tmr-faces)
+
+(defface tmr-finished '((t :inherit error))
+  "Face for styling the confirmation of a finished timer."
+  :package-version '(tmr . "1.0.0")
+  :group 'tmr-faces)
+
 (cl-defstruct (tmr--timer
                (:constructor tmr--timer-create)
                (:copier tmr--timer-copy))
@@ -168,23 +215,23 @@ Each function must accept a timer as argument."
     ;; one: check `tmr-print-message-for-created-timer' and
     ;; `tmr-print-message-for-cancelled-timer'.
     (format "TMR start %s; end %s; %s %s%s%s"
-            (propertize start 'face 'success)
-            (propertize end 'face 'error)
+            (propertize start 'face 'tmr-start-time)
+            (propertize end 'face 'tmr-end-time)
             (if (string-search ":" (tmr--timer-input timer))
                 "until"
               "duration")
-            (tmr--timer-input timer)
+            (propertize (tmr--timer-input timer) 'face 'tmr-duration)
             (cond
              ((and (tmr--timer-acknowledgep timer)
                    (tmr--timer-finishedp timer))
-              (concat "; " (propertize "acknowledged" 'face 'success)))
+              (concat "; " (propertize "acknowledged" 'face 'tmr-is-acknowledged)))
              ((tmr--timer-acknowledgep timer)
-              (concat "; " (propertize "acknowledge" 'face 'warning)))
+              (concat "; " (propertize "acknowledge" 'face 'tmr-must-be-acknowledged)))
              ((tmr--timer-finishedp timer)
-              (concat "; " (propertize "finished" 'face 'success)))
+              (concat "; " (propertize "finished" 'face 'tmr-finished)))
              (t ""))
             (if description
-                (concat "; " (propertize description 'face 'bold))
+                (concat "; " (propertize description 'face 'tmr-description))
               ""))))
 
 (defun tmr--long-description-for-finished-timer (timer)
@@ -196,10 +243,10 @@ optional `tmr--timer-description'."
         (description (tmr--timer-description timer)))
     ;; For the TMR prefix, see comment in `tmr--long-description'.
     (format "TMR Time is up!\n%s%s %s\n%s %s"
-            (if description (concat (propertize description 'face 'bold) "\n") "")
-            (propertize "Started" 'face 'success)
+            (if description (concat (propertize description 'face 'tmr-description) "\n") "")
+            (propertize "Started" 'face 'tmr-start-time)
             start
-            (propertize "Ended" 'face 'error)
+            (propertize "Ended" 'face 'tmr-end-time)
             end)))
 
 (defun tmr--format-creation-date (timer)
@@ -213,7 +260,7 @@ optional `tmr--timer-description'."
 (defun tmr--format-remaining (timer)
   "Format remaining time of TIMER."
   (if (tmr--timer-finishedp timer)
-      "✔"
+      tmr-finished-indicator
     (let* ((secs (round (- (float-time (tmr--timer-end-date timer))
                            (float-time))))
            (str (if (> secs 3600)
@@ -224,7 +271,7 @@ optional `tmr--timer-description'."
       (if (< secs 0)
           ;; Negative remaining time occurs for non-acknowledged timers with
           ;; additional duration.
-          (propertize str 'face 'error)
+          (propertize str 'face 'tmr-must-be-acknowledged)
         str))))
 
 (defun tmr--format-time (time)
@@ -355,7 +402,8 @@ If there are no timers, throw an error."
         (or (and selected (get-text-property 0 'tmr-timer selected))
             (user-error "No timer selected")))))))
 
-(declare-function notifications-notify "notifications")
+(declare-function notifications-notify "notifications" (&rest params))
+
 (defun tmr-notification-notify (timer)
   "Dispatch a notification for TIMER.
 
@@ -569,13 +617,13 @@ Without a PROMPT, clone TIMER outright."
   "Make completion table for CANDIDATES with sorting disabled.
 CATEGORY is the completion category.
 ANNOTATION is an annotation function."
-   (lambda (str pred action)
-     (if (eq action 'metadata)
-         `(metadata (display-sort-function . identity)
-                    (cycle-sort-function . identity)
+  (lambda (str pred action)
+    (if (eq action 'metadata)
+        `(metadata (display-sort-function . identity)
+                   (cycle-sort-function . identity)
                    (annotation-function . ,annotation)
-                    (category . ,category))
-       (complete-with-action action candidates str pred))))
+                   (category . ,category))
+      (complete-with-action action candidates str pred))))
 
 (defvar-keymap tmr-action-map
   :doc "Action map for TMRs, which can be utilized by Embark."
