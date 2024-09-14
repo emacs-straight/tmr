@@ -321,7 +321,7 @@ Table of Contents
   │ cd manual-packages
   │ 
   │ # Clone this repo, naming it "tmr"
-  │ git clone https://git.sr.ht/~protesilaos/tmr tmr
+  │ git clone https://github.com/protesilaos/tmr tmr
   └────
 
   Finally, in your `init.el' (or equivalent) evaluate this:

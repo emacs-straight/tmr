@@ -1,4 +1,4 @@
-This is docMYrSZD.info, produced by makeinfo version 6.8 from tmr.texi.
+This is docd7C1vd.info, produced by makeinfo version 6.8 from tmr.texi.
 
 INFO-DIR-SECTION Emacs misc features
 START-INFO-DIR-ENTRY
@@ -6,7 +6,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docMYrSZD.info,  Node: Top,  Next: COPYING,  Up: (dir)
+File: docd7C1vd.info,  Node: Top,  Next: COPYING,  Up: (dir)
 
 TMR May Ring
 ************
@@ -64,7 +64,7 @@ Indices
 
 
 
-File: docMYrSZD.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
+File: docd7C1vd.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
 
 1 COPYING
 *********
@@ -83,7 +83,7 @@ Copyright (C) 2021-2023 Free Software Foundation, Inc.
      modify this GNU manual.”
 
 
-File: docMYrSZD.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
+File: docd7C1vd.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
 
 2 Overview
 **********
@@ -192,7 +192,7 @@ keys (*note Sample configuration::).
 * Minibuffer histories::
 
 
-File: docMYrSZD.info,  Node: Grid view,  Next: Hooks,  Up: Overview
+File: docd7C1vd.info,  Node: Grid view,  Next: Hooks,  Up: Overview
 
 2.1 Grid view
 =============
@@ -227,7 +227,7 @@ we have already covered herein (the ‘C-h m’ will show you their key
 bindings in this mode).
 
 
-File: docMYrSZD.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Grid view,  Up: Overview
+File: docd7C1vd.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Grid view,  Up: Overview
 
 2.2 Hooks
 =========
@@ -252,7 +252,7 @@ TMR provides the following hooks:
      the echo area describing the timer that was cancelled.
 
 
-File: docMYrSZD.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
+File: docd7C1vd.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
 
 2.3 Sound and desktop notifications
 ===================================
@@ -278,7 +278,7 @@ functionality.  This is the norm.  If such functionality is not
 available, TMR will issue a warning informing the user accordingly.
 
 
-File: docMYrSZD.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
+File: docd7C1vd.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
 
 2.4 Minibuffer histories
 ========================
@@ -296,7 +296,7 @@ configuration:
      (add-hook 'after-init-hook #'savehist-mode)
 
 
-File: docMYrSZD.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: docd7C1vd.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 3 Installation
 **************
@@ -307,7 +307,7 @@ File: docMYrSZD.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: docMYrSZD.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docd7C1vd.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 3.1 GNU ELPA package
 ====================
@@ -326,7 +326,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docMYrSZD.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docd7C1vd.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 3.2 Manual installation
 =======================
@@ -343,7 +343,7 @@ following commands in a shell prompt:
      cd manual-packages
 
      # Clone this repo, naming it "tmr"
-     git clone https://git.sr.ht/~protesilaos/tmr tmr
+     git clone https://github.com/protesilaos/tmr tmr
 
    Finally, in your ‘init.el’ (or equivalent) evaluate this:
 
@@ -353,7 +353,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docMYrSZD.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
+File: docd7C1vd.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
 
 4 Sample configuration
 **********************
@@ -374,7 +374,7 @@ File: docMYrSZD.info,  Node: Sample configuration,  Next: Integration with Embar
      (define-key global-map "\C-ct" 'tmr)
 
 
-File: docMYrSZD.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
+File: docd7C1vd.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
 
 5 Integration with Embark
 *************************
@@ -386,7 +386,7 @@ objects recognisable by Embark and registers the ‘tmr-action-map’ in
 Embark.
 
 
-File: docMYrSZD.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
+File: docd7C1vd.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
 
 6 Acknowledgements
 ******************
@@ -400,7 +400,7 @@ Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Nathan R.  DeGruchy.
 
 
-File: docMYrSZD.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: docd7C1vd.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 7 GNU Free Documentation License
 ********************************
@@ -882,7 +882,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docMYrSZD.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docd7C1vd.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 8 Indices
 *********
@@ -894,19 +894,19 @@ File: docMYrSZD.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docMYrSZD.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docd7C1vd.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 8.1 Function index
 ==================
 
 
-File: docMYrSZD.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docd7C1vd.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 8.2 Variable index
 ==================
 
 
-File: docMYrSZD.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docd7C1vd.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 8.3 Concept index
 =================
