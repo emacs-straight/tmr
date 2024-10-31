@@ -171,7 +171,7 @@ user has the option to either bind the map to a prefix key, such as
 =C-c t= (so ~tmr~ is =C-c t t=), or bind individual commands to the
 desired keys ([[#h:69eeb3fb-f11d-431e-ae16-2d9b322871cc][Sample configuration]]).
 
-** Grid view
+** Grid or tabulated view
 :PROPERTIES:
 :CUSTOM_ID: h:51fe78e0-d614-492b-b7a3-fb6d5bd52a9a
 :END:
@@ -208,6 +208,25 @@ toggle sorting.
 While in this grid view, one can perform all the operations on timers we
 have already covered herein (the =C-h m= will show you their key
 bindings in this mode).
+
+[ The ~tmr-list-timers-action-alist~ and the option to call
+  ~tmr-tabulated-view~ from Lisp are part of {{{development-version}}}. ]
+
+#+vindex: tmr-list-timers-action-alist
+The user option ~tmr-list-timers-action-alist~ controls how the
+command ~tmr-tabulated-view~ displays its buffer. Its default
+behaviour is to (i) place the buffer at the bottom of the Emacs frame,
+(ii) resize the window to match the height of the buffer, and (iii)
+select that window.
+
+The value of this user option is the same data that is passed to
+~display-buffer-alist~. It is meant to be customised by advanced
+users. Evaluate =(info "(elisp) Displaying Buffers")= to read the
+relevant entry in the manual.
+
+The ~tmr-list-timers-action-alist~ is relevant only when the command
+~tmr-tabulated-view~ is called interactively. In Lisp, the ~tmr-tabulated-view~
+requires the buffer it should use and the concomitant action alist.
 
 ** Hooks
 :PROPERTIES:
@@ -364,10 +383,32 @@ Everything is in place to set up the package.
 :CUSTOM_ID: h:64711ce4-c023-4f6e-b9aa-b43942013423
 :END:
 
-The =embark= package provides standards-compliant infrastructure to run
-context-dependent actions on all sorts of targets (symbol at point, current
-completion candidate, etc.). TMR is set up to make its timer objects
-recognisable by Embark and registers the ~tmr-action-map~ in Embark.
+The ~embark~ package provides standards-compliant infrastructure to
+run context-dependent actions on all sorts of targets (symbol at
+point, current completion candidate, etc.). Users can use the
+following glue code to make TMR timer objects recognisable by Embark.
+
+#+begin_src emacs-lisp
+(defvar-keymap embark-tmr-action-map
+  :doc "Action map for TMRs, which can be utilized by Embark."
+  "k" #'tmr-remove
+  "r" #'tmr-remove
+  "R" #'tmr-remove-finished
+  "c" #'tmr-clone
+  "a" #'tmr-toggle-acknowledge
+  "e" #'tmr-edit-description
+  "s" #'tmr-reschedule)
+
+(defvar embark-keymap-alist)
+(defvar embark-post-action-hooks)
+
+(with-eval-after-load 'embark
+  (add-to-list 'embark-keymap-alist '(tmr-timer . embark-tmr-action-map))
+  (cl-loop
+   for cmd the key-bindings of embark-tmr-action-map
+   if (commandp cmd) do
+   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+#+end_src
 
 * Acknowledgements
 :PROPERTIES:

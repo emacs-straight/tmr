@@ -8,7 +8,7 @@
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
 ;; Version: 1.0.0
-;; Package-Requires: ((emacs "27.1") (compat "30.0.0.0"))
+;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, timer
 
 ;; This file is NOT part of GNU Emacs.
@@ -36,7 +36,6 @@
 
 ;;; Code:
 
-(require 'compat)
 (require 'seq)
 (eval-when-compile (require 'cl-lib))
 
@@ -47,10 +46,7 @@
   :link '(emacs-library-link :tag "Library Source" "tmr.el")
   :group 'data)
 
-(define-obsolete-variable-alias
-  'tmr-descriptions-list
-  'tmr-description-list
-  "0.4.0")
+;;;; User options
 
 (defcustom tmr-description-list 'tmr-description-history
   "List of timer description presets.
@@ -100,11 +96,6 @@ Each function must accept a timer as argument."
   :type 'hook
   :options '(tmr-print-message-for-created-timer))
 
-(define-obsolete-variable-alias
-  'tmr-timer-completed-functions
-  'tmr-timer-finished-functions
-  "0.4.0")
-
 (defcustom tmr-timer-finished-functions
   (list #'tmr-sound-play
         #'tmr-notification-notify
@@ -126,9 +117,31 @@ Each function must accept a timer as argument."
   :type 'hook)
 
 (defcustom tmr-finished-indicator "✔"
-  "Indicator for a finished timer."
+  "Indicator for a finished timer, shown in `tmr-tabulated-view'."
   :package-version '(tmr . "1.0.0")
   :type 'string)
+
+(defun tmr-select-and-resize (window)
+  "Select WINDOW and fit it to its buffer."
+  (select-window window)
+  (fit-window-to-buffer window))
+
+(defcustom tmr-list-timers-action-alist
+  '((display-buffer-reuse-mode-window display-buffer-at-bottom)
+    (dedicated . t)
+    (preserve-size . (t . t))
+    (body-function . tmr-select-and-resize))
+  "Action alist used by `tmr-tabulated-view' in interactive use.
+This is the same data that is passed to `display-buffer-alist'.
+Read Info node `(elisp) Displaying Buffers'.  As such, it is
+meant for experienced users."
+  :risky t
+  :type `(alist :key-type
+                (choice :tag "Condition" regexp (function :tag "Matcher function"))
+                :value-type ,display-buffer--action-custom-type)
+  :package-version '(tmr . "1.1.0"))
+
+;;;; Faces
 
 (defgroup tmr-faces ()
   "Faces for `tmr'."
@@ -171,6 +184,50 @@ Each function must accept a timer as argument."
   "Face for styling the confirmation of a finished timer."
   :package-version '(tmr . "1.0.0")
   :group 'tmr-faces)
+
+(defface tmr-tabulated-start-time
+  '((((class color) (min-colors 88) (background light))
+     :foreground "#004476")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#c0d0ef")
+    (t :foreground "cyan"))
+  "Start time in the `tmr-tabulated-view'."
+  :package-version '(tmr . "1.1.0")
+  :group 'tmr-faces)
+
+(defface tmr-tabulated-end-time
+  '((((class color) (min-colors 88) (background light))
+     :foreground "#603f00")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#deba66")
+    (t :foreground "yellow"))
+  "End time in the `tmr-tabulated-view'."
+  :package-version '(tmr . "1.1.0")
+  :group 'tmr-faces)
+
+(defface tmr-tabulated-remaining-time
+  '((((class color) (min-colors 88) (background light))
+     :foreground "#800040")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#e59fc6")
+    (t :foreground "magenta"))
+  "Remaining time in the `tmr-tabulated-view'."
+  :package-version '(tmr . "1.1.0")
+  :group 'tmr-faces)
+
+(defface tmr-tabulated-acknowledgement
+  '((t :inherit bold))
+  "Acknowledgement indicator in the `tmr-tabulated-view'."
+  :package-version '(tmr . "1.1.0")
+  :group 'tmr-faces)
+
+(defface tmr-tabulated-description
+  '((t :inherit font-lock-doc-face))
+  "Description of timer in the `tmr-tabulated-view'."
+  :package-version '(tmr . "1.1.0")
+  :group 'tmr-faces)
+
+;;;; Common helpers
 
 (cl-defstruct (tmr--timer
                (:constructor tmr--timer-create)
@@ -310,6 +367,8 @@ Populated by `tmr' and then operated on by `tmr-cancel'.")
 (defvar tmr--update-hook nil
   "Hooks to execute when timers are changed.")
 
+;;;; Commands
+
 (defun tmr-remove (timer)
   "Cancel and remove TIMER object set with `tmr' command.
 Interactively, let the user choose which timer to cancel with
@@ -442,16 +501,11 @@ TIMER is unused."
   "Show a `message' informing the user that TIMER has finished."
   (message "%s" (tmr--long-description-for-finished-timer timer)))
 
-(define-obsolete-function-alias
-  'tmr-print-message-for-completed-timer
-  'tmr-print-message-for-finished-timer
-  "0.4.0")
-
 (defun tmr-print-message-for-cancelled-timer (timer)
   "Show a `message' informing the user that TIMER is cancelled."
   (message "Cancelled: <<%s>>" (tmr--long-description timer)))
 
-(defvar tmr-duration-history '()
+(defvar tmr-duration-history nil
   "Minibuffer history of `tmr' durations.")
 
 (defun tmr--read-duration (&optional default)
@@ -463,7 +517,7 @@ If DEFAULT is provided, use that as a default."
       "N minutes for timer (append `h' or `s' for other units)" def)
      nil 'tmr-duration-history def)))
 
-(defvar tmr-description-history '()
+(defvar tmr-description-history nil
   "Minibuffer history of `tmr' descriptions.")
 
 (defun tmr--description-prompt (&optional default)
@@ -585,11 +639,6 @@ user uses a prefix argument (\\[universal-argument])."
     (tmr--acknowledge-prompt)))
   (tmr time description acknowledgep))
 
-(define-obsolete-function-alias
-  'tmr-with-description
-  'tmr-with-details
-  "0.4.0")
-
 (defun tmr-clone (timer &optional prompt)
   "Create a new timer by cloning TIMER.
 With optional PROMPT, such as a prefix argument, ask for
@@ -625,24 +674,126 @@ ANNOTATION is an annotation function."
                    (category . ,category))
       (complete-with-action action candidates str pred))))
 
-(defvar-keymap tmr-action-map
-  :doc "Action map for TMRs, which can be utilized by Embark."
-  "k" #'tmr-remove
-  "r" #'tmr-remove
-  "R" #'tmr-remove-finished
-  "c" #'tmr-clone
-  "a" #'tmr-toggle-acknowledge
-  "e" #'tmr-edit-description
-  "s" #'tmr-reschedule)
+;;;; Tabulated view
+
+;;;###autoload
+(defun tmr-tabulated-view (buffer action-alist)
+  "Open a tabulated list buffer listing tmr timers.
+BUFFER is the buffer to use and ACTION-ALIST is what `display-buffer'
+uses.  Those parameters are meant for use in Lisp.  In interactive use,
+they are set to reasonable default values."
+  (interactive
+   (list
+    (get-buffer-create "*tmr-tabulated-view*")
+    tmr-list-timers-action-alist))
+  (with-current-buffer buffer
+    (tmr-tabulated-mode))
+  (display-buffer buffer action-alist))
+
+(defalias 'tmr-list-timers 'tmr-tabulated-view
+  "Alias for `tmr-tabulated-view' command.")
+
+(defun tmr-tabulated--set-entries ()
+  "Set the value of `tabulated-list-entries' with timers."
+  (setq-local tabulated-list-entries
+              (mapcar #'tmr-tabulated--timer-to-entry tmr--timers)))
+
+(defun tmr-tabulated--timer-to-entry (timer)
+  "Convert TIMER into an entry suitable for `tabulated-list-entries'."
+  (list
+   timer
+   (vector
+    (propertize (tmr--format-creation-date timer) 'face 'tmr-tabulated-start-time)
+    (propertize (tmr--format-end-date timer) 'face 'tmr-tabulated-end-time)
+    (propertize (tmr--format-remaining timer) 'face 'tmr-tabulated-remaining-time)
+    (propertize (if (tmr--timer-acknowledgep timer) "Yes" "") 'face 'tmr-tabulated-acknowledgement)
+    (propertize (or (tmr--timer-description timer) "") 'face 'tmr-tabulated-description))))
+
+(defvar-local tmr-tabulated--refresh-timer nil
+  "Timer used to refresh tabulated view.")
+
+(defun tmr-tabulated--window-hook ()
+  "Setup timer to refresh tabulated view."
+  (if (get-buffer-window)
+      (unless tmr-tabulated--refresh-timer
+        (let* ((timer nil)
+               (buf (current-buffer))
+               (refresh
+                (lambda ()
+                  (if (buffer-live-p buf)
+                      (with-current-buffer buf
+                        (if-let* ((win (get-buffer-window)))
+                            (with-selected-window win
+                              (let ((end (eobp)))
+                                ;; Optimized refreshing
+                                (dolist (entry tabulated-list-entries)
+                                  (setf (aref (cadr entry) 2)
+                                        (propertize (tmr--format-remaining (car entry)) 'face 'tmr-tabulated-remaining-time)))
+                                (tabulated-list-print t)
+                                (when end (goto-char (point-max))))
+                              ;; HACK: For some reason the hl-line highlighting gets lost here
+                              (when (and (bound-and-true-p global-hl-line-mode)
+                                         (fboundp 'global-hl-line-highlight))
+                                (global-hl-line-highlight))
+                              (when (and (bound-and-true-p hl-line-mode)
+                                         (fboundp 'hl-line-highlight))
+                                (hl-line-highlight)))
+                          (cancel-timer timer)
+                          (setq tmr-tabulated--refresh-timer nil)))
+                    (cancel-timer timer)))))
+          (setq timer (run-at-time 1 1 refresh)
+                tmr-tabulated--refresh-timer timer)))
+    (when tmr-tabulated--refresh-timer
+      (cancel-timer tmr-tabulated--refresh-timer)
+      (setq tmr-tabulated--refresh-timer nil))))
+
+(defun tmr-tabulated--compare-remaining (a b)
+  "Compare remaining time of timers A and B."
+  (time-less-p (tmr--timer-end-date (car a))
+               (tmr--timer-end-date (car b))))
+
+(define-derived-mode tmr-tabulated-mode tabulated-list-mode "TMR"
+  "Major mode to display tmr timers."
+  (setq-local tabulated-list-format
+              [("Start" 10 t)
+               ("End" 10 t)
+               ("Remaining" 10 tmr-tabulated--compare-remaining)
+               ("Acknowledge?" 14 t)
+               ("Description" 0 t)])
+  (add-hook 'window-configuration-change-hook #'tmr-tabulated--window-hook nil t)
+  (add-hook 'tabulated-list-revert-hook #'tmr-tabulated--set-entries nil t)
+  (tmr-tabulated--set-entries)
+  (tabulated-list-init-header)
+  (tabulated-list-print))
+
+(defun tmr-tabulated--timer-at-point ()
+  "Return the timer on the current line or nil."
+  (and (eq major-mode #'tmr-tabulated-mode) (tabulated-list-get-id)))
+
+(defun tmr-tabulated--refresh ()
+  "Refresh *tmr-tabulated-view* buffer if it exists."
+  (when-let* ((buf (get-buffer "*tmr-tabulated-view*")))
+    (with-current-buffer buf
+      (let ((lines (line-number-at-pos)))
+        (revert-buffer)
+        (when (and (bobp) (> lines 1))
+          (forward-line (1- lines))
+          (unless (tabulated-list-get-id)
+            (forward-line -1)))))))
+
+(add-hook 'tmr--update-hook #'tmr-tabulated--refresh)
+(add-hook 'tmr--read-timer-hook #'tmr-tabulated--timer-at-point)
+
+;;;; Key bindings
 
 (defvar-keymap tmr-prefix-map
   :doc "Global prefix map for TMRs.
-This map should be bound to a global prefix."
+This map should be bound to a global prefix key."
   "+" #'tmr
   "*" #'tmr-with-details
   "t" #'tmr
   "T" #'tmr-with-details
-  "l" 'tmr-tabulated-view ;; autoloaded
+  "l" #'tmr-tabulated-view
   "c" #'tmr-clone
   "s" #'tmr-reschedule
   "a" #'tmr-toggle-acknowledge
@@ -654,14 +805,35 @@ This map should be bound to a global prefix."
 ;;;###autoload (autoload 'tmr-prefix-map "tmr" nil t 'keymap)
 (defalias 'tmr-prefix-map tmr-prefix-map)
 
-(defvar embark-keymap-alist)
-(defvar embark-post-action-hooks)
-(with-eval-after-load 'embark
-  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
-  (cl-loop
-   for cmd the key-bindings of tmr-action-map
-   if (commandp cmd) do
-   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+(defvar-keymap tmr-tabulated-mode-map
+  :doc "Keybindings for `tmr-tabulated-mode-map'."
+  "k" #'tmr-remove
+  "r" #'tmr-remove
+  "R" #'tmr-remove-finished
+  "+" #'tmr
+  "t" #'tmr
+  "*" #'tmr-with-details
+  "T" #'tmr-with-details
+  "c" #'tmr-clone
+  "a" #'tmr-toggle-acknowledge
+  "e" #'tmr-edit-description
+  "s" #'tmr-reschedule)
+
+;;;; Ask if there are timers before exiting Emacs
+
+(defun tmr-kill-emacs-query-function ()
+  "Ask before exiting Emacs if there are any TMR timers."
+  (if (not tmr--timers)
+      t
+    (tmr-tabulated-view
+     (get-buffer-create "*tmr-tabulated-view*")
+     '((display-buffer-reuse-mode-window display-buffer-at-bottom)
+       (window-height . fit-window-to-buffer)
+       (dedicated . t)
+       (preserve-size . (t . t))))
+    (yes-or-no-p "TMR has running timers; exit anyway? ")))
+
+(add-hook 'kill-emacs-query-functions #'tmr-kill-emacs-query-function)
 
 (provide 'tmr)
 ;;; tmr.el ends here
