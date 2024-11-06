@@ -197,20 +197,20 @@ meant for experienced users."
 
 (defface tmr-tabulated-end-time
   '((((class color) (min-colors 88) (background light))
-     :foreground "#603f00")
+     :foreground "#800040")
     (((class color) (min-colors 88) (background dark))
-     :foreground "#deba66")
-    (t :foreground "yellow"))
+     :foreground "#e59fc6")
+    (t :foreground "magenta"))
   "End time in the `tmr-tabulated-view'."
   :package-version '(tmr . "1.1.0")
   :group 'tmr-faces)
 
 (defface tmr-tabulated-remaining-time
   '((((class color) (min-colors 88) (background light))
-     :foreground "#800040")
+     :foreground "#603f00")
     (((class color) (min-colors 88) (background dark))
-     :foreground "#e59fc6")
-    (t :foreground "magenta"))
+     :foreground "#deba66")
+    (t :foreground "yellow"))
   "Remaining time in the `tmr-tabulated-view'."
   :package-version '(tmr . "1.1.0")
   :group 'tmr-faces)
@@ -674,6 +674,63 @@ ANNOTATION is an annotation function."
                    (category . ,category))
       (complete-with-action action candidates str pred))))
 
+
+;;;; Key bindings
+
+(defvar-keymap tmr-prefix-map
+  :doc "Global prefix map for TMRs.
+This map should be bound to a global prefix key."
+  "+" #'tmr
+  "*" #'tmr-with-details
+  "t" #'tmr
+  "T" #'tmr-with-details
+  "l" #'tmr-tabulated-view
+  "c" #'tmr-clone
+  "s" #'tmr-reschedule
+  "a" #'tmr-toggle-acknowledge
+  "e" #'tmr-edit-description
+  "r" #'tmr-remove
+  "R" #'tmr-remove-finished
+  "k" #'tmr-cancel)
+
+;;;###autoload (autoload 'tmr-prefix-map "tmr" nil t 'keymap)
+(defalias 'tmr-prefix-map tmr-prefix-map)
+
+(defvar-keymap tmr-tabulated-mode-map
+  :doc "Keybindings for `tmr-tabulated-mode'."
+  "k" #'tmr-remove
+  "r" #'tmr-remove
+  "R" #'tmr-remove-finished
+  "+" #'tmr
+  "t" #'tmr
+  "*" #'tmr-with-details
+  "T" #'tmr-with-details
+  "c" #'tmr-clone
+  "a" #'tmr-toggle-acknowledge
+  "e" #'tmr-edit-description
+  "s" #'tmr-reschedule)
+
+;;;;; Integration with the `embark' package
+
+(defvar-keymap tmr-action-map
+  :doc "Action map for TMRs, which can be utilized by Embark."
+  "k" #'tmr-remove
+  "r" #'tmr-remove
+  "R" #'tmr-remove-finished
+  "c" #'tmr-clone
+  "a" #'tmr-toggle-acknowledge
+  "e" #'tmr-edit-description
+  "s" #'tmr-reschedule)
+
+(defvar embark-keymap-alist)
+(defvar embark-post-action-hooks)
+(with-eval-after-load 'embark
+  (add-to-list 'embark-keymap-alist '(tmr-timer . tmr-action-map))
+  (cl-loop
+   for cmd the key-bindings of tmr-action-map
+   if (commandp cmd) do
+   (add-to-list 'embark-post-action-hooks (list cmd 'embark--restart))))
+
 ;;;; Tabulated view
 
 ;;;###autoload
@@ -783,41 +840,6 @@ they are set to reasonable default values."
 
 (add-hook 'tmr--update-hook #'tmr-tabulated--refresh)
 (add-hook 'tmr--read-timer-hook #'tmr-tabulated--timer-at-point)
-
-;;;; Key bindings
-
-(defvar-keymap tmr-prefix-map
-  :doc "Global prefix map for TMRs.
-This map should be bound to a global prefix key."
-  "+" #'tmr
-  "*" #'tmr-with-details
-  "t" #'tmr
-  "T" #'tmr-with-details
-  "l" #'tmr-tabulated-view
-  "c" #'tmr-clone
-  "s" #'tmr-reschedule
-  "a" #'tmr-toggle-acknowledge
-  "e" #'tmr-edit-description
-  "r" #'tmr-remove
-  "R" #'tmr-remove-finished
-  "k" #'tmr-cancel)
-
-;;;###autoload (autoload 'tmr-prefix-map "tmr" nil t 'keymap)
-(defalias 'tmr-prefix-map tmr-prefix-map)
-
-(defvar-keymap tmr-tabulated-mode-map
-  :doc "Keybindings for `tmr-tabulated-mode-map'."
-  "k" #'tmr-remove
-  "r" #'tmr-remove
-  "R" #'tmr-remove-finished
-  "+" #'tmr
-  "t" #'tmr
-  "*" #'tmr-with-details
-  "T" #'tmr-with-details
-  "c" #'tmr-clone
-  "a" #'tmr-toggle-acknowledge
-  "e" #'tmr-edit-description
-  "s" #'tmr-reschedule)
 
 ;;;; Ask if there are timers before exiting Emacs
 
