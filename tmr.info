@@ -1,4 +1,4 @@
-This is docrSuDwb.info, produced by makeinfo version 6.8 from tmr.texi.
+This is dockuX2NH.info, produced by makeinfo version 6.8 from tmr.texi.
 
 INFO-DIR-SECTION Emacs misc features
 START-INFO-DIR-ENTRY
@@ -6,7 +6,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docrSuDwb.info,  Node: Top,  Next: COPYING,  Up: (dir)
+File: dockuX2NH.info,  Node: Top,  Next: COPYING,  Up: (dir)
 
 TMR May Ring
 ************
@@ -64,7 +64,7 @@ Indices
 
 
 
-File: docrSuDwb.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
+File: dockuX2NH.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
 
 1 COPYING
 *********
@@ -83,7 +83,7 @@ Copyright (C) 2021-2023 Free Software Foundation, Inc.
      modify this GNU manual.”
 
 
-File: docrSuDwb.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
+File: dockuX2NH.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
 
 2 Overview
 **********
@@ -192,7 +192,7 @@ keys (*note Sample configuration::).
 * Minibuffer histories::
 
 
-File: docrSuDwb.info,  Node: Grid or tabulated view,  Next: Hooks,  Up: Overview
+File: dockuX2NH.info,  Node: Grid or tabulated view,  Next: Hooks,  Up: Overview
 
 2.1 Grid or tabulated view
 ==========================
@@ -246,7 +246,7 @@ entry in the manual.
 concomitant action alist.
 
 
-File: docrSuDwb.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Grid or tabulated view,  Up: Overview
+File: dockuX2NH.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Grid or tabulated view,  Up: Overview
 
 2.2 Hooks
 =========
@@ -271,7 +271,7 @@ TMR provides the following hooks:
      the echo area describing the timer that was cancelled.
 
 
-File: docrSuDwb.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
+File: dockuX2NH.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
 
 2.3 Sound and desktop notifications
 ===================================
@@ -297,7 +297,7 @@ functionality.  This is the norm.  If such functionality is not
 available, TMR will issue a warning informing the user accordingly.
 
 
-File: docrSuDwb.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
+File: dockuX2NH.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
 
 2.4 Minibuffer histories
 ========================
@@ -315,7 +315,7 @@ configuration:
      (add-hook 'after-init-hook #'savehist-mode)
 
 
-File: docrSuDwb.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: dockuX2NH.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 3 Installation
 **************
@@ -326,7 +326,7 @@ File: docrSuDwb.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: docrSuDwb.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: dockuX2NH.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 3.1 GNU ELPA package
 ====================
@@ -345,7 +345,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docrSuDwb.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: dockuX2NH.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 3.2 Manual installation
 =======================
@@ -372,7 +372,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docrSuDwb.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
+File: dockuX2NH.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
 
 4 Sample configuration
 **********************
@@ -393,7 +393,7 @@ File: docrSuDwb.info,  Node: Sample configuration,  Next: Integration with Embar
      (define-key global-map "\C-ct" 'tmr)
 
 
-File: docrSuDwb.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
+File: dockuX2NH.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
 
 5 Integration with Embark
 *************************
@@ -405,7 +405,7 @@ objects recognisable by Embark and registers the ‘tmr-action-map’ in
 Embark.
 
 
-File: docrSuDwb.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
+File: dockuX2NH.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
 
 6 Acknowledgements
 ******************
@@ -419,7 +419,7 @@ Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Nathan R.  DeGruchy.
 
 
-File: docrSuDwb.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: dockuX2NH.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 7 GNU Free Documentation License
 ********************************
@@ -901,7 +901,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docrSuDwb.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: dockuX2NH.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 8 Indices
 *********
@@ -913,19 +913,19 @@ File: docrSuDwb.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docrSuDwb.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: dockuX2NH.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 8.1 Function index
 ==================
 
 
-File: docrSuDwb.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: dockuX2NH.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 8.2 Variable index
 ==================
 
 
-File: docrSuDwb.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: dockuX2NH.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 8.3 Concept index
 =================
