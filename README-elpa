@@ -11,11 +11,11 @@ options for `tmr' (or TMR, TMR May Ring, …), and provides every other
 piece of information pertinent to it.  The name of the package is
 pronounced as “timer” or “T-M-R”.
 
-The documentation furnished herein corresponds to stable version 1.0.0,
-released on 2024-08-30.  Any reference to a newer feature which does not
+The documentation furnished herein corresponds to stable version 1.1.0,
+released on 2025-04-18.  Any reference to a newer feature which does not
 yet form part of the latest tagged commit, is explicitly marked as such.
 
-Current development target is 1.1.0-dev.
+Current development target is 1.2.0-dev.
 
 ⁃ Package name (GNU ELPA): `tmr'
 ⁃ Official manual: <https://protesilaos.com/emacs/tmr>
@@ -50,7 +50,7 @@ Table of Contents
 1 COPYING
 ═════════
 
-  Copyright (C) 2021-2023 Free Software Foundation, Inc.
+  Copyright (C) 2021-2025 Free Software Foundation, Inc.
 
         Permission is granted to copy, distribute and/or modify
         this document under the terms of the GNU Free
@@ -209,9 +209,6 @@ Table of Contents
   While in this grid view, one can perform all the operations on timers
   we have already covered herein (the `C-h m' will show you their key
   bindings in this mode).
-
-  [ The `tmr-list-timers-action-alist' and the option to call
-    `tmr-tabulated-view' from Lisp are part of 1.1.0-dev. ]
 
   The user option `tmr-list-timers-action-alist' controls how the
   command `tmr-tabulated-view' displays its buffer. Its default

@@ -1,13 +1,13 @@
 ;;; tmr.el --- Set timers using a convenient notation -*- lexical-binding: t -*-
 
-;; Copyright (C) 2020-2024  Free Software Foundation, Inc.
+;; Copyright (C) 2020-2025  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>,
 ;;         Damien Cassou <damien@cassou.me>,
 ;;         Daniel Mendler <mail@daniel-mendler.de>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
-;; Version: 1.0.0
+;; Version: 1.1.0
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, timer
 
@@ -128,6 +128,7 @@ Each function must accept a timer as argument."
 
 (defcustom tmr-list-timers-action-alist
   '((display-buffer-reuse-mode-window display-buffer-at-bottom)
+    (mode . tmr-tabulated-mode)
     (dedicated . t)
     (preserve-size . (t . t))
     (body-function . tmr-select-and-resize))
@@ -136,9 +137,10 @@ This is the same data that is passed to `display-buffer-alist'.
 Read Info node `(elisp) Displaying Buffers'.  As such, it is
 meant for experienced users."
   :risky t
-  :type `(alist :key-type
-                (choice :tag "Condition" regexp (function :tag "Matcher function"))
-                :value-type ,display-buffer--action-custom-type)
+  :type `(alist
+          :key-type (choice :tag "Condition" regexp
+                            (function :tag "Matcher function"))
+          :value-type ,display-buffer--action-custom-type)
   :package-version '(tmr . "1.1.0"))
 
 ;;;; Faces
@@ -850,6 +852,7 @@ they are set to reasonable default values."
     (tmr-tabulated-view
      (get-buffer-create "*tmr-tabulated-view*")
      '((display-buffer-reuse-mode-window display-buffer-at-bottom)
+       (mode . tmr-tabulated-mode)
        (window-height . fit-window-to-buffer)
        (dedicated . t)
        (preserve-size . (t . t))))
