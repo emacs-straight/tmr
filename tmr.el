@@ -5,6 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>,
 ;;         Damien Cassou <damien@cassou.me>,
 ;;         Daniel Mendler <mail@daniel-mendler.de>
+;;         Steven Allen <steven@stebalien.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
 ;; Version: 1.1.0
@@ -915,15 +916,15 @@ they are set to reasonable default values."
   "Format remaining time for TIMER with appropriate face."
   (let* ((secs (float-time (time-subtract (tmr--timer-end-date timer) nil)))
          (face (cond ((and (< secs 5) (evenp (truncate secs)))
-                      '((t :inherit tmr-mode-line-urgent :inverse-video t)))
+                      '(tmr-mode-line-urgent (:inverse-video t)))
                      ((< secs 30) 'tmr-mode-line-urgent)
                      ((= (truncate secs) 30)
-                      '((t :inherit tmr-mode-line-urgent :inverse-video t)))
+                      '(tmr-mode-line-urgent (:inverse-video t)))
                      ((= (truncate secs) 60)
-                      '((t :inherit tmr-mode-line-soon :inverse-video t)))
+                      '(tmr-mode-line-soon (:inverse-video t)))
                      ((< secs 120) 'tmr-mode-line-soon)
                      ((= (truncate secs) 120)
-                      '((t :inherit tmr-mode-line-soon :inverse-video t)))
+                      '(tmr-mode-line-soon (:inverse-video t)))
                      (t 'tmr-mode-line-active)))
          (formatted (format-seconds
                      (cond ((< secs 120) "%mm %ss%z")
