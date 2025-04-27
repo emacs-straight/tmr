@@ -31,9 +31,10 @@ Table of Contents
 1. COPYING
 2. Overview
 .. 1. Grid or tabulated view
-.. 2. Hooks
-.. 3. Sound and desktop notifications
-.. 4. Minibuffer histories
+.. 2. Display timers on the mode line
+.. 3. Hooks
+.. 4. Sound and desktop notifications
+.. 5. Minibuffer histories
 3. Installation
 .. 1. GNU ELPA package
 .. 2. Manual installation
@@ -170,9 +171,9 @@ Table of Contents
 
 [Grid view] See section 2.1
 
-[Hooks] See section 2.2
+[Hooks] See section 2.3
 
-[Sound and desktop notifications] See section 2.3
+[Sound and desktop notifications] See section 2.4
 
 [Sample configuration] See section 4
 
@@ -226,8 +227,66 @@ Table of Contents
   `tmr-tabulated-view' requires the buffer it should use and the
   concomitant action alist.
 
+  Faces used in the tabulated view:
 
-2.2 Hooks
+  `tmr-tabulated-start-time'
+        The time the timer started.
+
+  `tmr-tabulated-end-time'
+        The time the timer will end.
+
+  `tmr-tabulated-remaining-time'
+        The timer’s remaining time.
+
+  `tmr-tabulated-acknowledgement'
+        Whether the timer needs to be acknowledged.
+
+  `tmr-tabulated-description'
+        The description of the timer.
+
+
+2.2 Display timers on the mode line
+───────────────────────────────────
+
+  [ This is part of 1.2.0-dev. ]
+
+  The `tmr-mode-line-mode' is a minor mode that displays running timers
+  on the mode line. Specifically, the timers are shown as part of the
+  `global-mode-string'. This means that they may be displayed on the
+  `tab-bar-mode' instead of the mode line if the user option
+  `tab-bar-format' is configured accordingly.
+
+  The user option `tmr-mode-line-format' controls how the timers are
+  rendered. This is a string that treats specially the `%r' and `%d'
+  specifiers. The `%r' represents the remaining time, while `%d' is the
+  description of the timer.
+
+  The user option `tmr-mode-line-max-desc-length' sets the maximum
+  length of a timers description, when the `tmr-mode-line-format' is
+  configured to show descriptions.
+
+  The user option `tmr-mode-line-max-timers' sets the maximum number of
+  running timers that are shown on the mode line at any one time.
+
+  The user option `tmr-mode-line-separator' specifies a string that is
+  inserted between timers on the mode line to visually separate them.
+
+  The user option `tmr-mode-line-prefix' specifies a string that is
+  prepended to the indicator with all the running timers.
+
+  Applicable faces for this case are:
+
+  `tmr-mode-line-active'
+        Any active timer.
+
+  `tmr-mode-line-soon'
+        A timer that expires within 2 minutes.
+
+  `tmr-mode-line-urgent'
+        A timer that expires within 30 seconds.
+
+
+2.3 Hooks
 ─────────
 
   TMR provides the following hooks:
@@ -250,10 +309,10 @@ Table of Contents
         in the echo area describing the timer that was cancelled.
 
 
-[Sound and desktop notifications] See section 2.3
+[Sound and desktop notifications] See section 2.4
 
 
-2.3 Sound and desktop notifications
+2.4 Sound and desktop notifications
 ───────────────────────────────────
 
   Once the timer has run its course, it produces a desktop notification
@@ -277,7 +336,7 @@ Table of Contents
   available, TMR will issue a warning informing the user accordingly.
 
 
-2.4 Minibuffer histories
+2.5 Minibuffer histories
 ────────────────────────
 
   TMR defines two variables that store user input:
