@@ -919,7 +919,7 @@ they are set to reasonable default values."
 (defun tmr-mode-line--format-remaining (timer)
   "Format remaining time for TIMER with appropriate face."
   (let* ((secs (float-time (time-subtract (tmr--timer-end-date timer) nil)))
-         (face (cond ((and (< secs 5) (evenp (truncate secs)))
+         (face (cond ((and (< secs 5) (= (% (truncate secs) 2) 0))
                       '(tmr-mode-line-urgent (:inverse-video t)))
                      ((< secs 30) 'tmr-mode-line-urgent)
                      ((= (truncate secs) 30)
@@ -969,7 +969,7 @@ they are set to reasonable default values."
                (seq-sort-by #'tmr--timer-end-date #'time-less-p)))
 
 (defun tmr-mode-line--update ()
-  "Updates `tmr-mode-line-string' based on the current timer state."
+  "Update `tmr-mode-line-string' based on the current timer state."
   (setq
    tmr-mode-line-string
    (if-let* ((active-timers (tmr-mode-line--get-active-timers)))
