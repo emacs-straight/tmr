@@ -548,15 +548,13 @@ Read Info node `(elisp) Desktop Notifications' for details."
 ;; NOTE 2022-04-21: Emacs has a `play-sound' function but it only
 ;; supports .wav and .au formats.  Also, it does not work on all
 ;; platforms and Emacs needs to be compiled --with-sound capabilities.
-(defun tmr-sound-play (&optional _timer)
-  "Play `tmr-sound-file' using the ffplay executable (ffmpeg).
-TIMER is unused."
-  (when-let* ((sound tmr-sound-file)
-              ((file-exists-p sound)))
-    (unless (executable-find "ffplay")
-      (user-error "Cannot play %s without `ffplay'" sound))
-    (call-process-shell-command
-     (format "ffplay -nodisp -autoexit %s >/dev/null 2>&1" sound) nil 0)))
+(defun tmr-sound-play (&rest _)
+  "Play `tmr-sound-file' using the ffplay executable (ffmpeg)."
+  (if (executable-find "ffplay")
+      (when-let* ((sound (expand-file-name tmr-sound-file))
+                  (_ (file-exists-p sound)))
+        (call-process "ffplay" nil 0 nil "-nodisp" "-autoexit" sound))
+    (display-warning 'tmr "`ffplay' is not available to play back `tmr-sound-file'")))
 
 (defun tmr-print-message-for-created-timer (timer)
   "Show a `message' informing the user that TIMER was created."
