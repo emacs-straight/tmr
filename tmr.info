@@ -1,4 +1,4 @@
-This is doc83BATm.info, produced by makeinfo version 6.8 from tmr.texi.
+This is docOUzOc3.info, produced by makeinfo version 6.8 from tmr.texi.
 
 INFO-DIR-SECTION Emacs misc features
 START-INFO-DIR-ENTRY
@@ -6,7 +6,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: doc83BATm.info,  Node: Top,  Next: COPYING,  Up: (dir)
+File: docOUzOc3.info,  Node: Top,  Next: COPYING,  Up: (dir)
 
 TMR May Ring
 ************
@@ -65,7 +65,7 @@ Indices
 
 
 
-File: doc83BATm.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
+File: docOUzOc3.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
 
 1 COPYING
 *********
@@ -84,7 +84,7 @@ Copyright (C) 2021-2025 Free Software Foundation, Inc.
      modify this GNU manual.”
 
 
-File: doc83BATm.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
+File: docOUzOc3.info,  Node: Overview,  Next: Installation,  Prev: COPYING,  Up: Top
 
 2 Overview
 **********
@@ -194,7 +194,7 @@ keys (*note Sample configuration::).
 * Minibuffer histories::
 
 
-File: doc83BATm.info,  Node: Grid or tabulated view,  Next: Display timers on the mode line,  Up: Overview
+File: docOUzOc3.info,  Node: Grid or tabulated view,  Next: Display timers on the mode line,  Up: Overview
 
 2.1 Grid or tabulated view
 ==========================
@@ -262,7 +262,7 @@ concomitant action alist.
      The description of the timer.
 
 
-File: doc83BATm.info,  Node: Display timers on the mode line,  Next: Hooks,  Prev: Grid or tabulated view,  Up: Overview
+File: docOUzOc3.info,  Node: Display timers on the mode line,  Next: Hooks,  Prev: Grid or tabulated view,  Up: Overview
 
 2.2 Display timers on the mode line
 ===================================
@@ -305,7 +305,7 @@ prepended to the indicator with all the running timers.
      A timer that expires within 30 seconds.
 
 
-File: doc83BATm.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Display timers on the mode line,  Up: Overview
+File: docOUzOc3.info,  Node: Hooks,  Next: Sound and desktop notifications,  Prev: Display timers on the mode line,  Up: Overview
 
 2.3 Hooks
 =========
@@ -330,7 +330,7 @@ TMR provides the following hooks:
      the echo area describing the timer that was cancelled.
 
 
-File: doc83BATm.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
+File: docOUzOc3.info,  Node: Sound and desktop notifications,  Next: Minibuffer histories,  Prev: Hooks,  Up: Overview
 
 2.4 Sound and desktop notifications
 ===================================
@@ -356,7 +356,7 @@ functionality.  This is the norm.  If such functionality is not
 available, TMR will issue a warning informing the user accordingly.
 
 
-File: doc83BATm.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
+File: docOUzOc3.info,  Node: Minibuffer histories,  Prev: Sound and desktop notifications,  Up: Overview
 
 2.5 Minibuffer histories
 ========================
@@ -374,7 +374,7 @@ configuration:
      (add-hook 'after-init-hook #'savehist-mode)
 
 
-File: doc83BATm.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: docOUzOc3.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 3 Installation
 **************
@@ -385,7 +385,7 @@ File: doc83BATm.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: doc83BATm.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docOUzOc3.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 3.1 GNU ELPA package
 ====================
@@ -404,7 +404,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: doc83BATm.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docOUzOc3.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 3.2 Manual installation
 =======================
@@ -431,7 +431,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: doc83BATm.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
+File: docOUzOc3.info,  Node: Sample configuration,  Next: Integration with Embark,  Prev: Installation,  Up: Top
 
 4 Sample configuration
 **********************
@@ -452,7 +452,7 @@ File: doc83BATm.info,  Node: Sample configuration,  Next: Integration with Embar
      (define-key global-map "\C-ct" 'tmr)
 
 
-File: doc83BATm.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
+File: docOUzOc3.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
 
 5 Integration with Embark
 *************************
@@ -464,7 +464,7 @@ objects recognisable by Embark and registers the ‘tmr-action-map’ in
 Embark.
 
 
-File: doc83BATm.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
+File: docOUzOc3.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Integration with Embark,  Up: Top
 
 6 Acknowledgements
 ******************
@@ -476,11 +476,11 @@ Authors
      Steven Allen.
 
 Contributions to the code or manual
-     Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Mirko Hernandez,
-     Nathan R.  DeGruchy.
+     Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Lucas Quintana,
+     Mirko Hernandez, Nathan R.  DeGruchy, jpg.
 
 
-File: doc83BATm.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: docOUzOc3.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 7 GNU Free Documentation License
 ********************************
@@ -962,7 +962,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: doc83BATm.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docOUzOc3.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 8 Indices
 *********
@@ -974,19 +974,19 @@ File: doc83BATm.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: doc83BATm.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docOUzOc3.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 8.1 Function index
 ==================
 
 
-File: doc83BATm.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docOUzOc3.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 8.2 Variable index
 ==================
 
 
-File: doc83BATm.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docOUzOc3.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 8.3 Concept index
 =================
@@ -1008,11 +1008,11 @@ Node: Manual installation14960
 Node: Sample configuration15717
 Node: Integration with Embark16411
 Node: Acknowledgements16880
-Node: GNU Free Documentation License17349
-Node: Indices42692
-Node: Function index42868
-Node: Variable index42991
-Node: Concept index43136
+Node: GNU Free Documentation License17370
+Node: Indices42713
+Node: Function index42889
+Node: Variable index43012
+Node: Concept index43157
 
 End Tag Table
 
