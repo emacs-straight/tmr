@@ -8,7 +8,7 @@
 ;;         Steven Allen <steven@stebalien.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
-;; Version: 1.1.0
+;; Version: 1.2.0
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, timer
 
@@ -116,7 +116,7 @@ Each function must accept a timer as argument."
 
 (defcustom tmr-timer-cancelled-functions
   (list #'tmr-print-message-for-cancelled-timer)
-  "Functions to execute when a timer is created.
+  "Functions to execute when a timer is cancelled.
 Each function must accept a timer as argument."
   :type 'hook)
 
@@ -647,7 +647,7 @@ If optional DEFAULT is provided use it as a default candidate."
                   ("+ 1 m" . 60)
                   ("+ 5 m" . 300)
                   ("+ 10 min" . 600)
-                  ("+ 15 min" . 960)
+                  ("+ 15 min" . 900)
                   nil))))
     (tmr--continue-overtime timer duration)))
 
