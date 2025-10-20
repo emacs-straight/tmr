@@ -8,7 +8,7 @@
 ;;         Steven Allen <steven@stebalien.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
-;; Version: 1.2.0
+;; Version: 1.2.1
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, timer
 
@@ -589,7 +589,7 @@ Read Info node `(elisp) Desktop Notifications' for details."
 (defun tmr-sound-play (&rest _)
   "Play `tmr-sound-file' using the ffplay executable (ffmpeg)."
   (if (executable-find "ffplay")
-      (when-let* ((sound (expand-file-name tmr-sound-file))
+      (when-let* ((sound (and tmr-sound-file (expand-file-name tmr-sound-file)))
                   (_ (file-exists-p sound)))
         (call-process "ffplay" nil 0 nil "-nodisp" "-autoexit" sound))
     (display-warning 'tmr "`ffplay' is not available to play back `tmr-sound-file'")))
