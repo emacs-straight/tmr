@@ -185,7 +185,7 @@ Table of Contents
   buffer and looks like this:
 
   ┌────
-  │ Start      End        Duration   Remaining  Acknowlegde?   Description
+  │ Start      End        Duration   Remaining  Acknowledge?   Description
   │ 
   │ 10:26:05   10:36:05   10m        9m 45s                    Prepare tea
   │ 10:25:50   10:30:50   5m         4m 31s     Yes            Test the feature
@@ -210,6 +210,15 @@ Table of Contents
   While in this grid view, one can perform all the operations on timers
   we have already covered herein (the `C-h m' will show you their key
   bindings in this mode).
+
+  By default, the `tmr-tabulated-view' buffer is updated automatically
+  every 5 seconds. Users can change the number of seconds by modifying
+  the user option `tmr-tabulated-refresh-interval'. A `nil' value means
+  to never refresh that buffer automatically: users can update it
+  manually by invoking the command `revert-buffer', which is bound to
+  `g' by default. [ This is part of 1.3.0-dev, instead of the old
+  arrangement of updating the buffer every second without an option to
+  change it. ]
 
   The user option `tmr-list-timers-action-alist' controls how the
   command `tmr-tabulated-view' displays its buffer. Its default

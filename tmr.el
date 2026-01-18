@@ -125,6 +125,15 @@ Each function must accept a timer as argument."
   :package-version '(tmr . "1.0.0")
   :type 'string)
 
+(defcustom tmr-tabulated-refresh-interval 5
+  "Refresh the `tmr-tabulated-view' buffer after these many seconds.
+If the value is nil, then never automatically refresh that buffer: the
+user can do that manually by invoking the command `revert-buffer'."
+  :package-version '(tmr . "1.3.0")
+  :type '(choice
+          (natnum :tag "Seconds to auto-refresh the `tmr-tabulated-view' buffer")
+          (const :tag "Never auto-refresh the `tmr-tabulated-view' buffer" nil)))
+
 (defun tmr-select-and-resize (window)
   "Select WINDOW and fit it to its buffer."
   (select-window window)
@@ -891,17 +900,15 @@ they are set to reasonable default values."
                                 (tabulated-list-print t)
                                 (when end (goto-char (point-max))))
                               ;; HACK: For some reason the hl-line highlighting gets lost here
-                              (when (and (bound-and-true-p global-hl-line-mode)
-                                         (fboundp 'global-hl-line-highlight))
-                                (global-hl-line-highlight))
                               (when (and (bound-and-true-p hl-line-mode)
                                          (fboundp 'hl-line-highlight))
                                 (hl-line-highlight)))
                           (cancel-timer timer)
                           (setq tmr-tabulated--refresh-timer nil)))
                     (cancel-timer timer)))))
-          (setq timer (run-at-time 1 1 refresh)
-                tmr-tabulated--refresh-timer timer)))
+          (when (natnump tmr-tabulated-refresh-interval)
+            (setq timer (run-at-time nil tmr-tabulated-refresh-interval refresh)
+                  tmr-tabulated--refresh-timer timer))))
     (when tmr-tabulated--refresh-timer
       (cancel-timer tmr-tabulated--refresh-timer)
       (setq tmr-tabulated--refresh-timer nil))))
