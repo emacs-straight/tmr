@@ -133,6 +133,13 @@ minibuffer prompt (‘ack’ by default) can be configured via the user
 option ‘tmr-acknoledge-timer-text’ [ The confirmation text is
 configurable as part of 1.3.0-dev.  ]
 
+   The command ‘tmr-toggle-pause’ pauses the given timer.  The tabulated
+view has a column to show when a timer is paused (*note Grid or
+tabulated view::).  Similarly, the mode line indicator adapts the text
+of the timer to tell that it is paused (*note Display timers on the mode
+line::).  [ The ‘tmr-toggle-pause’ and related functionality is part of
+1.3.0-dev.  ]
+
    The user option ‘tmr-descriptions-list’ defines the completion
 candidates that are shown at the description prompt.  Its value can be
 either a list of strings or the symbol of a variable that holds a list
@@ -206,11 +213,13 @@ Timers can be viewed in a grid with ‘tmr-tabulated-view’ (alias
 ‘tmr-list-timers’).  The data is placed in the ‘*tmr-tabulated-view*’
 buffer and looks like this:
 
-     Start      End        Duration   Remaining  Acknowledge?   Description
+   [ The pause functionality is part of 1.3.0-dev.  ]
 
-     10:26:05   10:36:05   10m        9m 45s                    Prepare tea
-     10:25:50   10:30:50   5m         4m 31s     Yes            Test the feature
-     10:25:04   10:35:04   10m        8m 44s
+     Start      End        Duration   Remaining  Paused?  Acknowledge?   Description
+
+     08:49:41   09:19:46   30m        29m 17s    Yes                     Work on TMR for 30 minutes
+     08:49:31   08:54:31   5m         3m 53s                             Prepare tea
+     08:49:21   08:59:21   10m        8m 42s              Yes            Edit the description with this one instead
 
    If a timer has elapsed, it has a check mark associated with it,
 otherwise the ‘Remaining’ column shows the time left.  A ‘Description’
@@ -265,6 +274,9 @@ concomitant action alist.
 
 ‘tmr-tabulated-remaining-time’
      The timer's remaining time.
+
+‘tmr-tabulated-paused’
+     Whether the timer is paused or not.
 
 ‘tmr-tabulated-acknowledgement’
      Whether the timer needs to be acknowledged.
@@ -485,8 +497,8 @@ Authors
      Steven Allen.
 
 Contributions to the code or manual
-     Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Lucas Quintana,
-     Mirko Hernandez, Nathan R.  DeGruchy, jpg.
+     Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
+     Quintana, Mirko Hernandez, Nathan R.  DeGruchy, jpg.
 
 
 File: tmr.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
@@ -1006,22 +1018,22 @@ Tag Table:
 Node: Top211
 Node: COPYING1646
 Node: Overview2368
-Node: Grid or tabulated view7362
-Node: Display timers on the mode line10588
-Node: Hooks12190
-Node: Sound and desktop notifications13199
-Node: Minibuffer histories14240
-Node: Installation14891
-Node: GNU ELPA package15072
-Node: Manual installation15624
-Node: Sample configuration16375
-Node: Integration with Embark17063
-Node: Acknowledgements17526
-Node: GNU Free Documentation License18010
-Node: Indices43146
-Node: Function index43316
-Node: Variable index43433
-Node: Concept index43572
+Node: Grid or tabulated view7738
+Node: Display timers on the mode line11196
+Node: Hooks12798
+Node: Sound and desktop notifications13807
+Node: Minibuffer histories14848
+Node: Installation15499
+Node: GNU ELPA package15680
+Node: Manual installation16232
+Node: Sample configuration16983
+Node: Integration with Embark17671
+Node: Acknowledgements18134
+Node: GNU Free Documentation License18631
+Node: Indices43767
+Node: Function index43937
+Node: Variable index44054
+Node: Concept index44193
 
 End Tag Table
 
