@@ -29,6 +29,8 @@ as such.
    • Git repositories:
         • GitHub: <https://github.com/protesilaos/tmr>
         • GitLab: <https://gitlab.com/protesilaos/tmr>
+   • Video demonstration:
+     <https://protesilaos.com/codelog/2026-01-19-emacs-timers-tmr-demo/>
    • Backronym: TMR May Ring; Timer Must Run.
 
 * Menu:
@@ -130,15 +132,13 @@ confirmation after it elapses.  The user can either confirm and thus
 dismiss the timer, or set a new duration for the next reminder, using
 the familiar TMR input.  The confirmation text to be provided at the
 minibuffer prompt (‘ack’ by default) can be configured via the user
-option ‘tmr-acknoledge-timer-text’ [ The confirmation text is
-configurable as part of 1.3.0-dev.  ]
+option ‘tmr-acknowledge-timer-text’.
 
    The command ‘tmr-toggle-pause’ pauses the given timer.  The tabulated
 view has a column to show when a timer is paused (*note Grid or
 tabulated view::).  Similarly, the mode line indicator adapts the text
 of the timer to tell that it is paused (*note Display timers on the mode
-line::).  [ The ‘tmr-toggle-pause’ and related functionality is part of
-1.3.0-dev.  ]
+line::).
 
    The user option ‘tmr-descriptions-list’ defines the completion
 candidates that are shown at the description prompt.  Its value can be
@@ -213,8 +213,6 @@ Timers can be viewed in a grid with ‘tmr-tabulated-view’ (alias
 ‘tmr-list-timers’).  The data is placed in the ‘*tmr-tabulated-view*’
 buffer and looks like this:
 
-   [ The pause functionality is part of 1.3.0-dev.  ]
-
      Start      End        Duration   Remaining  Paused?  Acknowledge?   Description
 
      08:49:41   09:19:46   30m        29m 17s    Yes                     Work on TMR for 30 minutes
@@ -245,8 +243,7 @@ every 5 seconds.  Users can change the number of seconds by modifying
 the user option ‘tmr-tabulated-refresh-interval’.  A ‘nil’ value means
 to never refresh that buffer automatically: users can update it manually
 by invoking the command ‘revert-buffer’, which is bound to ‘g’ by
-default.  [ This is part of 1.3.0-dev, instead of the old arrangement of
-updating the buffer every second without an option to change it.  ]
+default.
 
    The user option ‘tmr-list-timers-action-alist’ controls how the
 command ‘tmr-tabulated-view’ displays its buffer.  Its default behaviour
@@ -457,20 +454,13 @@ File: tmr.info,  Node: Sample configuration,  Next: Integration with Embark,  Pr
 4 Sample configuration
 **********************
 
-     ;; Set to nil to disable the sound
-     (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga")
-
-     ;; Desktop notification urgency level
-     (setq tmr-notification-urgency 'normal)
-
-     ;; Read the `tmr-descriptions-list' doc string
-     (setq tmr-descriptions-list 'tmr-description-history)
-
-     ;; Set global prefix bindings (autoloaded):
-     (define-key global-map "\C-ct" 'tmr-prefix-map)
-
-     ;; Alternatively bind tmr command (autoloaded):
-     (define-key global-map "\C-ct" 'tmr)
+     (use-package tmr
+       :ensure t
+       :config
+       (define-key global-map (kbd "C-c t") #'tmr-prefix-map)
+       (setq tmr-sound-file "/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga"
+             tmr-notification-urgency 'normal
+             tmr-description-list 'tmr-description-history))
 
 
 File: tmr.info,  Node: Integration with Embark,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
@@ -1016,24 +1006,24 @@ File: tmr.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 Tag Table:
 Node: Top211
-Node: COPYING1646
-Node: Overview2368
-Node: Grid or tabulated view7738
-Node: Display timers on the mode line11196
-Node: Hooks12798
-Node: Sound and desktop notifications13807
-Node: Minibuffer histories14848
-Node: Installation15499
-Node: GNU ELPA package15680
-Node: Manual installation16232
-Node: Sample configuration16983
-Node: Integration with Embark17671
-Node: Acknowledgements18134
-Node: GNU Free Documentation License18631
-Node: Indices43767
-Node: Function index43937
-Node: Variable index44054
-Node: Concept index44193
+Node: COPYING1747
+Node: Overview2469
+Node: Grid or tabulated view7695
+Node: Display timers on the mode line10966
+Node: Hooks12568
+Node: Sound and desktop notifications13577
+Node: Minibuffer histories14618
+Node: Installation15269
+Node: GNU ELPA package15450
+Node: Manual installation16002
+Node: Sample configuration16753
+Node: Integration with Embark17225
+Node: Acknowledgements17688
+Node: GNU Free Documentation License18185
+Node: Indices43321
+Node: Function index43491
+Node: Variable index43608
+Node: Concept index43747
 
 End Tag Table
 

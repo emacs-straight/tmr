@@ -8,7 +8,7 @@
 ;;         Steven Allen <steven@stebalien.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
-;; Version: 1.2.1
+;; Version: 1.3.0
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, timer
 
@@ -139,7 +139,7 @@ Each function must accept a timer as argument."
   :package-version '(tmr . "1.0.0")
   :type 'string)
 
-(defcustom tmr-acknoledge-timer-text "ack"
+(defcustom tmr-acknowledge-timer-text "ack"
   "Text to confirm that a timer is acknowledged.
 This is the input to be given to the minibuffer prompt that asks for
 confirmation when a timer has to be acknowledged (acknowledgement here
@@ -737,8 +737,8 @@ If optional DEFAULT is provided use it as a default candidate."
                (read-from-minibuffer
                 (format "%s\nAcknowledge with `%s' or additional duration: "
                         (tmr--long-description-for-finished-timer timer)
-                        tmr-acknoledge-timer-text))))
-          (not (or (equal input tmr-acknoledge-timer-text)
+                        tmr-acknowledge-timer-text))))
+          (not (or (equal input tmr-acknowledge-timer-text)
                    (when-let* ((duration
                                 (ignore-errors
                                   (tmr--parse-duration (current-time) input))))
@@ -865,7 +865,7 @@ This map should be bound to a global prefix key."
   "T" #'tmr-with-details
   "l" #'tmr-tabulated-view
   "s" #'tmr-reschedule
-  "p" #'tmr-toggle-pause
+  "P" #'tmr-toggle-pause
   "a" #'tmr-toggle-acknowledge
   "e" #'tmr-edit-description
   "r" #'tmr-remove
@@ -888,7 +888,7 @@ This map should be bound to a global prefix key."
   "a" #'tmr-toggle-acknowledge
   "e" #'tmr-edit-description
   "s" #'tmr-reschedule
-  "p" #'tmr-toggle-pause)
+  "P" #'tmr-toggle-pause)
 
 ;;;;; Integration with the `embark' package
 
