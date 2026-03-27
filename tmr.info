@@ -1,4 +1,4 @@
-This is tmr.info, produced by makeinfo version 7.1.1 from tmr.texi.
+This is tmr.info, produced by makeinfo version 7.2 from tmr.texi.
 
 INFO-DIR-SECTION Emacs misc features
 START-INFO-DIR-ENTRY
@@ -64,7 +64,6 @@ Indices
 * Function index::
 * Variable index::
 * Concept index::
-
 
 
 File: tmr.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
@@ -488,7 +487,7 @@ Authors
 
 Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
-     Quintana, Mirko Hernandez, Nathan R.  DeGruchy, jpg.
+     Quintana, Mirko Hernandez, Nathan R.  DeGruchy, f6p, jpg.
 
 
 File: tmr.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
@@ -1002,32 +1001,32 @@ File: tmr.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 8.3 Concept index
 =================
 
-
 
 Tag Table:
-Node: Top211
-Node: COPYING1747
-Node: Overview2469
-Node: Grid or tabulated view7695
-Node: Display timers on the mode line10966
-Node: Hooks12568
-Node: Sound and desktop notifications13577
-Node: Minibuffer histories14618
-Node: Installation15269
-Node: GNU ELPA package15450
-Node: Manual installation16002
-Node: Sample configuration16753
-Node: Integration with Embark17225
-Node: Acknowledgements17688
-Node: GNU Free Documentation License18185
-Node: Indices43321
-Node: Function index43491
-Node: Variable index43608
-Node: Concept index43747
+Node: Top209
+Node: COPYING1744
+Node: Overview2466
+Node: Grid or tabulated view7692
+Node: Display timers on the mode line10963
+Node: Hooks12565
+Node: Sound and desktop notifications13574
+Node: Minibuffer histories14615
+Node: Installation15266
+Node: GNU ELPA package15447
+Node: Manual installation15999
+Node: Sample configuration16750
+Node: Integration with Embark17222
+Node: Acknowledgements17685
+Node: GNU Free Documentation License18187
+Node: Indices43323
+Node: Function index43493
+Node: Variable index43610
+Node: Concept index43749
 
 End Tag Table
 
 
 Local Variables:
 coding: utf-8
+Info-documentlanguage: en
 End:
