@@ -483,7 +483,7 @@ TMR is meant to be a collective effort.  Every bit of help matters.
 
 Authors
      Protesilaos Stavrou (maintainer), Damien Cassou, Daniel Mendler,
-     Steven Allen.
+     Óscar Fuentes, Steven Allen.
 
 Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
@@ -1017,11 +1017,11 @@ Node: Manual installation15999
 Node: Sample configuration16750
 Node: Integration with Embark17222
 Node: Acknowledgements17685
-Node: GNU Free Documentation License18187
-Node: Indices43323
-Node: Function index43493
-Node: Variable index43610
-Node: Concept index43749
+Node: GNU Free Documentation License18203
+Node: Indices43339
+Node: Function index43509
+Node: Variable index43626
+Node: Concept index43765
 
 End Tag Table
 
