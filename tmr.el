@@ -752,6 +752,18 @@ If optional DEFAULT is provided use it as a default candidate."
       (symbol-value tmr-description-list)))
    nil nil nil 'tmr-description-history default))
 
+(defvar tmr-repeat-prompt-history nil
+  "Minibuffer history for `tmr-repeat-prompt'.")
+
+(defun tmr-repeat-prompt ()
+  "Prompt for a repeat count."
+  (let ((default (car tmr-repeat-prompt-history)))
+    (read-number
+     "Repeat N times: "
+     (when default
+       (string-to-number default))
+     'tmr-repeat-prompt-history)))
+
 (defun tmr--acknowledge-prompt ()
   "Ask the user if a timer must be acknowledged."
   (y-or-n-p "Acknowledge timer after finish? "))
@@ -796,6 +808,11 @@ This function is used if a timer is not acknowledged."
   (run-hooks 'tmr--update-hook)
   (run-hook-with-args 'tmr-timer-created-functions timer))
 
+(defun tmr-print-message-for-repeating-timer (timer)
+  "Print message for how many times TIMER repeats."
+  (when-let* ((count (tmr--timer-repeat-count timer)))
+    (message "TMR repeats another %d times" count)))
+
 (defun tmr--complete (timer)
   "Mark TIMER as finished or repeat it and execute hooks."
   (if (>= 0 (tmr--timer-repeat-count timer))
@@ -811,6 +828,11 @@ This function is used if a timer is not acknowledged."
     (run-hooks 'tmr--update-hook)
     (run-hook-with-args 'tmr-timer-repeat-functions timer)))
 
+;; TODO 2026-04-23: How best to include the REPEAT-N in the
+;; `interactive' spec of `tmr'.  What we have now suggests we should
+;; use the double prefix arg, but I do not like that.  Maybe we can
+;; leave it as-is and not use the repeat interactively in this way:
+;; users can rely on `tmr-repeat'.
 ;;;###autoload
 (defun tmr (time &optional description acknowledgep repeat-n)
   "Set timer to TIME duration and notify after it elapses.
@@ -828,7 +850,7 @@ With optional ACKNOWLEDGEP non-nil the timer must be acknowledged
 after it finished, such that the timer cannot be missed.
 
 Optional integer REPEAT-N indicates how many times the timer shall
-repeat.
+repeated.
 
 This command also plays back `tmr-sound-file' if it is available.
 
@@ -867,7 +889,9 @@ See `tmr' for a description of the arguments DESCRIPTION and
 ACKNOWLEDGEP.  The difference between the two commands is that
 `tmr-with-details' always asks for a description and if the timer
 should be acknowledged whereas `tmr' only asks for it when the
-user uses a prefix argument (\\[universal-argument])."
+user uses a prefix argument (\\[universal-argument]).
+
+Also see `tmr-repeat'."
   (interactive
    (list
     (tmr--read-duration)
@@ -877,23 +901,22 @@ user uses a prefix argument (\\[universal-argument])."
 
 ;;;###autoload
 (defun tmr-repeat (time repeat-n &optional description acknowledgep)
-  "Set timer to TIME duration and repeat.
+  "Set timer to TIME duration and repeat it REPEAT-N times.
 
 REPEAT-N is an integer indicating how many times the timer shall be
 repeated.
 
 See `tmr' for a description of the arguments DESCRIPTION and
-ACKNOWLEDGEP.  The difference between the two commands is that
-`tmr-with-details' always asks for a description and if the timer
-should be acknowledged whereas `tmr' only asks for it when the
-user uses a prefix argument (\\[universal-argument])."
+ACKNOWLEDGEP.
+
+Also see `tmr-with-details'."
   (interactive
    (list
     (tmr--read-duration)
-    (read-number "Repeat N times: ")
+    (tmr-repeat-prompt)
     (when current-prefix-arg (tmr--description-prompt))
     (when current-prefix-arg (tmr--acknowledge-prompt))))
-  (tmr time nil nil repeat-n))
+  (tmr time description acknowledgep repeat-n))
 
 (defun tmr-clone (timer &optional prompt)
   "Create a new timer by cloning TIMER.
@@ -946,7 +969,8 @@ This map should be bound to a global prefix key."
   "e" #'tmr-edit-description
   "r" #'tmr-remove
   "R" #'tmr-remove-finished
-  "k" #'tmr-cancel)
+  "k" #'tmr-cancel
+  "n" #'tmr-repeat)
 
 ;;;###autoload (autoload 'tmr-prefix-map "tmr" nil t 'keymap)
 (defalias 'tmr-prefix-map tmr-prefix-map)

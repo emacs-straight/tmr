@@ -107,6 +107,10 @@ Table of Contents
   difference between the two is that the latter always prompts for a
   description and if the timer should be acknowledged.
 
+  Similarly, the `tmr-repeat' is a wrapper for `tmr' that always prompts
+  for a timer with a repeat count. This means that the timer will ring
+  that many times. [ Part of 1.3.0-dev. ]
+
   The command `tmr-edit-description' can change the description a given
   timer object.
 
@@ -128,7 +132,8 @@ Table of Contents
   either a list of strings or the symbol of a variable that holds a list
   of strings.  The default value of `tmr-description-history', is the
   name of a variable that contains input provided by the user at the
-  relevant prompt of the `tmr' and `tmr-with-details' commands.
+  relevant prompt of the `tmr' and `tmr-with-details' commands (or
+  anywhere else where a description is given).
 
   When the timer is set, a message is sent to the echo area recording
   the current time and the point in the future when the timer elapses.
@@ -141,7 +146,7 @@ Table of Contents
   from the list of created timer objects.  Timers at the completion
   prompt are described by the exact time they were set and the input
   that was used to create them, including the optional description that
-  `tmr' and `tmr-with-details' accept.
+  `tmr' and derivative commands have.
 
   The `tmr-remove' command is like `tmr-cancel', except it is not
   limited to active timers: it can target elapsed ones as well.

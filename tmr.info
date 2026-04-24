@@ -122,6 +122,10 @@ the given timer.
 difference between the two is that the latter always prompts for a
 description and if the timer should be acknowledged.
 
+   Similarly, the ‘tmr-repeat’ is a wrapper for ‘tmr’ that always
+prompts for a timer with a repeat count.  This means that the timer will
+ring that many times.  [ Part of 1.3.0-dev.  ]
+
    The command ‘tmr-edit-description’ can change the description a given
 timer object.
 
@@ -144,7 +148,8 @@ candidates that are shown at the description prompt.  Its value can be
 either a list of strings or the symbol of a variable that holds a list
 of strings.  The default value of ‘tmr-description-history’, is the name
 of a variable that contains input provided by the user at the relevant
-prompt of the ‘tmr’ and ‘tmr-with-details’ commands.
+prompt of the ‘tmr’ and ‘tmr-with-details’ commands (or anywhere else
+where a description is given).
 
    When the timer is set, a message is sent to the echo area recording
 the current time and the point in the future when the timer elapses.
@@ -157,7 +162,7 @@ command ‘tmr-tabulated-view’, which has more features than the generic
 from the list of created timer objects.  Timers at the completion prompt
 are described by the exact time they were set and the input that was
 used to create them, including the optional description that ‘tmr’ and
-‘tmr-with-details’ accept.
+derivative commands have.
 
    The ‘tmr-remove’ command is like ‘tmr-cancel’, except it is not
 limited to active timers: it can target elapsed ones as well.
@@ -1006,22 +1011,22 @@ Tag Table:
 Node: Top209
 Node: COPYING1744
 Node: Overview2466
-Node: Grid or tabulated view7692
-Node: Display timers on the mode line10963
-Node: Hooks12565
-Node: Sound and desktop notifications13574
-Node: Minibuffer histories14615
-Node: Installation15266
-Node: GNU ELPA package15447
-Node: Manual installation15999
-Node: Sample configuration16750
-Node: Integration with Embark17222
-Node: Acknowledgements17685
-Node: GNU Free Documentation License18203
-Node: Indices43339
-Node: Function index43509
-Node: Variable index43626
-Node: Concept index43765
+Node: Grid or tabulated view7930
+Node: Display timers on the mode line11201
+Node: Hooks12803
+Node: Sound and desktop notifications13812
+Node: Minibuffer histories14853
+Node: Installation15504
+Node: GNU ELPA package15685
+Node: Manual installation16237
+Node: Sample configuration16988
+Node: Integration with Embark17460
+Node: Acknowledgements17923
+Node: GNU Free Documentation License18441
+Node: Indices43577
+Node: Function index43747
+Node: Variable index43864
+Node: Concept index44003
 
 End Tag Table
 
