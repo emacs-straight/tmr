@@ -104,4 +104,6 @@ Timers can now appear on the modeline
   timers is `tmr-mode-line-separator'. The length of each timer's
   optional description is subject to `tmr-mode-line-max-desc-length'.
   While the entire indicator can have a prefix, per
-  `tmr-mode-line-prefix'.  …  …
+  `tmr-mode-line-prefix'.
+
+  …  …

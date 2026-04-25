@@ -11,10 +11,10 @@ File: tmr.info,  Node: Top,  Next: COPYING,  Up: (dir)
 TMR May Ring
 ************
 
-This manual, written by Protesilaos Stavrou, describes the customization
-options for ‘tmr’ (or TMR, TMR May Ring, ...), and provides every other
-piece of information pertinent to it.  The name of the package is
-pronounced as "timer" or "T-M-R".
+This manual, written by Protesilaos, describes the customization options
+for ‘tmr’ (or TMR, TMR May Ring, ...), and provides every other piece of
+information pertinent to it.  The name of the package is pronounced as
+"timer" or "T-M-R".
 
    The documentation furnished herein corresponds to stable version
 1.2.0, released on 2025-10-06.  Any reference to a newer feature which
@@ -487,8 +487,8 @@ File: tmr.info,  Node: Acknowledgements,  Next: GNU Free Documentation License, 
 TMR is meant to be a collective effort.  Every bit of help matters.
 
 Authors
-     Protesilaos Stavrou (maintainer), Damien Cassou, Daniel Mendler,
-     Óscar Fuentes, Steven Allen.
+     Protesilaos (maintainer), Damien Cassou, Daniel Mendler, Óscar
+     Fuentes, Steven Allen.
 
 Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
@@ -1009,24 +1009,24 @@ File: tmr.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 Tag Table:
 Node: Top209
-Node: COPYING1744
-Node: Overview2466
-Node: Grid or tabulated view7930
-Node: Display timers on the mode line11201
-Node: Hooks12803
-Node: Sound and desktop notifications13812
-Node: Minibuffer histories14853
-Node: Installation15504
-Node: GNU ELPA package15685
-Node: Manual installation16237
-Node: Sample configuration16988
-Node: Integration with Embark17460
-Node: Acknowledgements17923
-Node: GNU Free Documentation License18441
-Node: Indices43577
-Node: Function index43747
-Node: Variable index43864
-Node: Concept index44003
+Node: COPYING1736
+Node: Overview2458
+Node: Grid or tabulated view7922
+Node: Display timers on the mode line11193
+Node: Hooks12795
+Node: Sound and desktop notifications13804
+Node: Minibuffer histories14845
+Node: Installation15496
+Node: GNU ELPA package15677
+Node: Manual installation16229
+Node: Sample configuration16980
+Node: Integration with Embark17452
+Node: Acknowledgements17915
+Node: GNU Free Documentation License18425
+Node: Indices43561
+Node: Function index43731
+Node: Variable index43848
+Node: Concept index43987
 
 End Tag Table
 
