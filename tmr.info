@@ -492,7 +492,8 @@ Authors
 
 Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
-     Quintana, Mirko Hernandez, Nathan R.  DeGruchy, f6p, jpg.
+     Quintana, Mirko Hernandez, Nathan R.  DeGruchy, Pavlo Lysov, f6p,
+     jpg.
 
 
 File: tmr.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
@@ -1022,11 +1023,11 @@ Node: Manual installation16229
 Node: Sample configuration16980
 Node: Integration with Embark17452
 Node: Acknowledgements17915
-Node: GNU Free Documentation License18446
-Node: Indices43582
-Node: Function index43752
-Node: Variable index43869
-Node: Concept index44008
+Node: GNU Free Documentation License18464
+Node: Indices43600
+Node: Function index43770
+Node: Variable index43887
+Node: Concept index44026
 
 End Tag Table
 
