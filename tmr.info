@@ -1,4 +1,4 @@
-This is tmr.info, produced by makeinfo version 7.2 from tmr.texi.
+This is tmr.info, produced by makeinfo version 7.1.1 from tmr.texi.
 
 INFO-DIR-SECTION Emacs misc features
 START-INFO-DIR-ENTRY
@@ -64,6 +64,7 @@ Indices
 * Function index::
 * Variable index::
 * Concept index::
+
 
 
 File: tmr.info,  Node: COPYING,  Next: Overview,  Prev: Top,  Up: Top
@@ -347,6 +348,30 @@ TMR provides the following hooks:
      message in the echo area which is basically the same as the desktop
      notification.
 
+     This hook can be used as an extension point for custom notification
+     mechanisms.  To replace or augment the default desktop
+     notification, remove ‘tmr-notification-notify’ and add your own
+     function:
+
+          (remove-hook 'tmr-timer-finished-functions #'tmr-notification-notify)
+          (add-hook 'tmr-timer-finished-functions #'my-custom-notify-function)
+
+     The function receives a timer.
+
+     Below is an example of how a macOS notification could be produced:
+
+          (defun my-macos-notify (timer)
+            (let* ((description (or (tmr--timer-description timer) ""))
+                   (sanitized-body (substring-no-properties description))
+                   (script (format "display notification %S with title %S sound name %S"
+                                       sanitized-body
+                                       (format-time-string "Emacs TMR: %R" (tmr--timer-end-date timer))
+                                       "Hero")))
+              (call-process "osascript" nil 0 nil "-e" script)))
+
+          (remove-hook 'tmr-timer-finished-functions #'tmr-notification-notify)
+          (add-hook 'tmr-timer-finished-functions #'my-macos-notify)
+
 ‘tmr-timer-cancelled-functions’
      This is called by ‘tmr-cancel’.  By default, it prints a message in
      the echo area describing the timer that was cancelled.
@@ -488,7 +513,7 @@ TMR is meant to be a collective effort.  Every bit of help matters.
 
 Authors
      Protesilaos (maintainer), Carlos Pajuelo Rojo, Damien Cassou,
-     Daniel Mendler, Óscar Fuentes, Steven Allen.
+     Daniel Mendler, Óscar Fuentes, Pavlo Lysov, Steven Allen.
 
 Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
@@ -1007,32 +1032,32 @@ File: tmr.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 8.3 Concept index
 =================
 
+
 
 Tag Table:
-Node: Top209
-Node: COPYING1736
-Node: Overview2458
-Node: Grid or tabulated view7922
-Node: Display timers on the mode line11193
-Node: Hooks12795
-Node: Sound and desktop notifications13804
-Node: Minibuffer histories14845
-Node: Installation15496
-Node: GNU ELPA package15677
-Node: Manual installation16229
-Node: Sample configuration16980
-Node: Integration with Embark17452
-Node: Acknowledgements17915
-Node: GNU Free Documentation License18464
-Node: Indices43600
-Node: Function index43770
-Node: Variable index43887
-Node: Concept index44026
+Node: Top211
+Node: COPYING1739
+Node: Overview2461
+Node: Grid or tabulated view7925
+Node: Display timers on the mode line11196
+Node: Hooks12798
+Node: Sound and desktop notifications14998
+Node: Minibuffer histories16039
+Node: Installation16690
+Node: GNU ELPA package16871
+Node: Manual installation17423
+Node: Sample configuration18174
+Node: Integration with Embark18646
+Node: Acknowledgements19109
+Node: GNU Free Documentation License19671
+Node: Indices44807
+Node: Function index44977
+Node: Variable index45094
+Node: Concept index45233
 
 End Tag Table
 
 
 Local Variables:
 coding: utf-8
-Info-documentlanguage: en
 End:
