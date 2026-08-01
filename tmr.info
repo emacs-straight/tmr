@@ -17,11 +17,11 @@ information pertinent to it.  The name of the package is pronounced as
 "timer" or "T-M-R".
 
    The documentation furnished herein corresponds to stable version
-1.3.0, released on 2026-01-25.  Any reference to a newer feature which
+1.4.0, released on 2026-07-31.  Any reference to a newer feature which
 does not yet form part of the latest tagged commit, is explicitly marked
 as such.
 
-   Current development target is 1.4.0-dev.
+   Current development target is 1.5.0-dev.
 
    • Package name (GNU ELPA): ‘tmr’
    • Official manual: <https://protesilaos.com/emacs/tmr>
@@ -221,10 +221,9 @@ description and whether the timer should be acknowledged or not.
 
    The ‘tmr-repeat’ is like ‘tmr’ though also prompts for a number of
 repetitions repeat count.  This means that the specified timer will run
-that many times.  [ Part of 1.4.0-dev.  ]  When called with a prefix
-argument (‘C-u’ with default keybindings) it asks for a description and
-whether timer should be acknowledged or not once all repetitions are
-done.
+that many times.  When called with a prefix argument (‘C-u’ with default
+keybindings) it asks for a description and whether timer should be
+acknowledged or not once all repetitions are done.
 
    When the timer is set, a message is sent to the echo area recording
 the current time and the point in the future when the timer elapses.
@@ -248,11 +247,18 @@ File: tmr.info,  Node: Commands that act on timers,  Next: Grid or tabulated vie
 6 Commands that act on timers
 *****************************
 
-All of the following commands act on existing timers (*note Create a new
-timer::).
+All of the following commands act on existing timers by prompting to
+select one among them (*note Create a new timer::).
 
    The command ‘tmr-edit-description’ can change the description a given
 timer object.
+
+   The command ‘tmr-edit-repeat-count’ sets the repeat count of the
+given timer.  When the repeat count is set to ‘0’, then the timer is no
+longer considered repeatable.  Modifying a timer's repeat count does not
+start a new timer.  It simply updates the relevant data.  Use the
+command ‘tmr-clone’ to start a new timer using the data of an existing
+timer.
 
    The command ‘tmr-toggle-acknowledge’ toggles the acknowledge flag of
 a given timer object.  A timer that needs to be acknowledged prompts for
@@ -384,9 +390,7 @@ File: tmr.info,  Node: Control the visible columns of the tabulated view,  Next:
 7.3 Control the visible columns of the tabulated view
 =====================================================
 
-[ The ‘tmr-tabulated-columns’ is part of 1.4.0-dev.  ]
-
-   The user option ‘tmr-tabulated-columns’ controls which columns are
+The user option ‘tmr-tabulated-columns’ controls which columns are
 displayed by ‘tmr-tabulated-view’ (*note Grid or tabulated view::).  The
 default value shows all the available columns.  The columns are
 specified as a list of the following symbols:
@@ -401,8 +405,6 @@ specified as a list of the following symbols:
      how much time is left in the timer;
 ‘paused’
      whether the timer is paused or not;
-‘repeatable’
-     whether the timer is set to repeat or not;
 ‘remaining-repeats’
      the number of repeats left;
 ‘total-repeats’
@@ -538,10 +540,7 @@ File: tmr.info,  Node: The timer prompt,  Next: Sound and desktop notifications,
 10 The timer prompt
 *******************
 
-[ The ‘tmr-read-timer’ and ‘tmr-completion-metadata’ are both part of
-1.4.0-dev.  ]
-
-   For commands that act on timers, the function ‘tmr-read-timer’ is
+For commands that act on timers, the function ‘tmr-read-timer’ is
 involved in the minibuffer completion phase: it is how the user picks
 one among the relevant timers.
 
@@ -1148,24 +1147,24 @@ Node: Manual installation3567
 Node: Sample configuration4318
 Node: How to specify the duration of a new timer4809
 Node: Create a new timer5923
-Node: Commands that act on timers8175
-Node: Grid or tabulated view10750
-Node: Control how frequently the tabulated view is refreshed for the remaining time12898
-Node: Specify how the tabulated view is displayed in a window13675
-Node: Control the visible columns of the tabulated view14852
-Node: Faces specifically used in the tabulated view16180
-Node: Display timers on the mode line16991
-Node: Hooks18584
-Node: The timer prompt20760
-Node: Sound and desktop notifications21441
-Node: Minibuffer histories22486
-Node: Integration with Embark23183
-Node: Acknowledgements23648
-Node: GNU Free Documentation License24212
-Node: Indices49350
-Node: Function index49522
-Node: Variable index49641
-Node: Concept index49782
+Node: Commands that act on timers8150
+Node: Grid or tabulated view11133
+Node: Control how frequently the tabulated view is refreshed for the remaining time13281
+Node: Specify how the tabulated view is displayed in a window14058
+Node: Control the visible columns of the tabulated view15235
+Node: Faces specifically used in the tabulated view16435
+Node: Display timers on the mode line17246
+Node: Hooks18839
+Node: The timer prompt21015
+Node: Sound and desktop notifications21600
+Node: Minibuffer histories22645
+Node: Integration with Embark23342
+Node: Acknowledgements23807
+Node: GNU Free Documentation License24371
+Node: Indices49509
+Node: Function index49681
+Node: Variable index49800
+Node: Concept index49941
 
 End Tag Table
 

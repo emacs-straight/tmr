@@ -8,7 +8,7 @@
 ;;         Steven Allen <steven@stebalien.com>
 ;; Maintainer: Protesilaos <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/tmr
-;; Version: 1.3.0
+;; Version: 1.4.0
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, timer
 
@@ -161,7 +161,7 @@ user can do that manually by invoking the command `revert-buffer'."
 
 (defcustom tmr-tabulated-columns
   '( start end duration remaining paused
-     repeatable remaining-repeats total-repeats
+     remaining-repeats total-repeats
      acknowledge description)
   "List of columns used by `tmr-tabulated-view'.
 This is a list of the following symbols:
@@ -171,7 +171,6 @@ This is a list of the following symbols:
 - `duration' for the duration of the timer;
 - `remaining' for how much time is left in the timer;
 - `paused' for whether the timer is paused or not;
-- `repeatable' for whether the timer is set to repeat or not;
 - `remaining-repeats' for the number of repeats left;
 - `total-repeats' for the total repeats specified originally;
 - `ackonwledge' whether for the timer should stop only after being acknowledged;
@@ -185,7 +184,6 @@ by `tmr-tabulated-view'.  Duplicates are removed."
                   (const :tag "Duration" duration)
                   (const :tag "Remaining time" remaining)
                   (const :tag "Paused status" paused)
-                  (const :tag "Repeatable status" repeatable)
                   (const :tag "Remaining repeats" remaining-repeats)
                   (const :tag "Total repeats" total-repeats)
                   (const :tag "Acknowledge status" acknowledge)
@@ -401,7 +399,11 @@ Longer descriptions will be truncated."
    :documentation "Remaining repetitions.")
   (original-repeat-count
    nil
-   :read-only t
+   ;; NOTE 2026-07-31: My initial plan was to have a read-only entry
+   ;; here, but with `tmr-edit-repeat-count' it makes sense to make
+   ;; this writable.  Now the name is probably wrong, but I will leave
+   ;; it for now, as there may be a better approach
+   :read-only nil
    :documentation "The original repeat count with which the timer was created, or nil.")
   (duration
    nil
@@ -432,11 +434,12 @@ Longer descriptions will be truncated."
 
 (defun tmr--long-description-duration (timer)
   "Format the duration/until for TIMER long description."
-  (format "%s %s"
-          (if (string-search ":" (tmr--timer-input timer))
-              "until"
-            "duration")
-          (propertize (tmr--timer-input timer) 'face 'tmr-duration)))
+  (let ((input (tmr--timer-input timer)))
+    (format "%s %s"
+            (if (string-search ":" input)
+                "until"
+              "duration")
+            (propertize input 'face 'tmr-duration))))
 
 (defun tmr--long-description-status (timer)
   "Format the status for TIMER long description."
@@ -695,6 +698,33 @@ cancelling the original one."
   (setf (tmr--timer-description timer) description)
   (run-hooks 'tmr--update-hook))
 
+(defun tmr-edit-repeat-count (timer repeat-count)
+  "Change TIMER repeat count to that specified by REPEAT-COUNT.
+Modifying a timer's repeat count does not start a new timer.  It simply
+updates the relevant data.  Use the command `tmr-clone' to start a new
+timer using the data of an existing timer."
+  (interactive
+   (list
+    (tmr-read-timer "Edit repeat count of timer: ")
+    (tmr-repeat-prompt)))
+  (let ((current (tmr--timer-repeat-count timer))
+        (original (tmr--timer-original-repeat-count timer))
+        (no-repeats-p (< repeat-count 1)))
+    (if (tmr--timer-finishedp timer)
+        (if no-repeats-p
+            (setf (tmr--timer-original-repeat-count timer) nil)
+          (setf (tmr--timer-original-repeat-count timer) repeat-count))
+      (setf (tmr--timer-repeat-count timer) repeat-count)
+      (cond
+       (no-repeats-p
+        (setf (tmr--timer-original-repeat-count timer) nil))
+       (original
+        (setf (tmr--timer-original-repeat-count timer)
+              (max repeat-count (+ original (- repeat-count current)))))
+       (t
+        (setf (tmr--timer-original-repeat-count timer) repeat-count))))
+    (run-hooks 'tmr--update-hook)))
+
 (defun tmr-toggle-pause (timer)
   "Toggle pause/resume state of TIMER."
   (interactive (list (tmr-read-timer "Pause/resume timer: " :active)))
@@ -711,7 +741,6 @@ cancelling the original one."
         (setf (tmr--timer-paused-remaining timer) remaining)
         (run-hooks 'tmr--update-hook)
         (run-hook-with-args 'tmr-timer-paused-functions timer)))))
-
 
 (defun tmr-toggle-acknowledge (timer)
   "Toggle ackowledge flag of TIMER."
@@ -902,27 +931,27 @@ This function is used if a timer is not acknowledged."
      ((= count 1)
       (if-let* ((description (tmr--timer-description timer))
                 (_ (not (string-blank-p description))))
-	      (message "TMR with duration `%s' and description `%s' repeats another time"
+          (message "TMR with duration `%s' and description `%s' repeats another time"
                    (propertize (tmr--format-duration timer) 'face 'tmr-duration)
                    (propertize description 'face 'tmr-description))
-	    (message "TMR with duration `%s' repeats another time"
+        (message "TMR with duration `%s' repeats another time"
                  (propertize (tmr--format-duration timer) 'face 'tmr-duration))))
-	 ((= count 0)
+     ((= count 0)
       (if-let* ((description (tmr--timer-description timer))
                 (_ (not (string-blank-p description))))
-	      (message "TMR with duration `%s' and description `%s' will not repeat again"
+          (message "TMR with duration `%s' and description `%s' will not repeat again"
                    (propertize (tmr--format-duration timer) 'face 'tmr-duration)
                    (propertize description 'face 'tmr-description))
-	    (message "TMR with duration `%s' will not repeat again"
+        (message "TMR with duration `%s' will not repeat again"
                  (propertize (tmr--format-duration timer) 'face 'tmr-duration))))
-	 (t
+     (t
       (if-let* ((description (tmr--timer-description timer))
                 (_ (not (string-blank-p description))))
           (message "TMR with duration `%s' and description `%s' repeats another `%s' times"
                    (propertize (tmr--format-duration timer) 'face 'tmr-duration)
                    (propertize description 'face 'tmr-description)
                    (propertize (number-to-string count) 'face 'tmr-repeat-count))
-	    (message "TMR with duration `%s' repeats another `%s' times"
+        (message "TMR with duration `%s' repeats another `%s' times"
                  (propertize (tmr--format-duration timer) 'face 'tmr-duration)
                  (propertize (number-to-string count) 'face 'tmr-repeat-count)))))))
 
@@ -1035,17 +1064,16 @@ Also see `tmr-with-details'."
 
 (defun tmr-clone (timer &optional prompt)
   "Create a new timer by cloning TIMER.
-With optional PROMPT, such as a prefix argument, ask for
-confirmation about the duration.  When PROMPT is a double prefix
-argument, ask for a description as well and ask if the timer must
-be acknowledged.
+With optional PROMPT, such as a prefix argument, ask for confirmation
+about the duration.  When PROMPT is a double prefix argument, ask for a
+description and whether the timer must be acknowledged after it elapses.
 
-Without a PROMPT, clone TIMER outright."
+Without a PROMPT, clone TIMER outright, retaining all of its properties."
   (interactive
    (list
     (tmr-read-timer "Clone timer: ")
     current-prefix-arg))
-  (tmr
+  (tmr--subr
    (if prompt
        (tmr--read-duration (format "%s" (tmr--timer-input timer)))
      (format "%s" (tmr--timer-input timer)))
@@ -1054,7 +1082,8 @@ Without a PROMPT, clone TIMER outright."
      (tmr--timer-description timer))
    (if (equal prompt '(16))
        (tmr--acknowledge-prompt)
-     (tmr--timer-acknowledgep timer))))
+     (tmr--timer-acknowledgep timer))
+   (tmr--timer-original-repeat-count timer)))
 
 (defun tmr-get-completion-table (candidates &rest metadata)
   "Return completion table with CANDIDATES and METADATA.
@@ -1081,6 +1110,7 @@ This map should be bound to a global prefix key."
   "P" #'tmr-toggle-pause
   "a" #'tmr-toggle-acknowledge
   "e" #'tmr-edit-description
+  "E" #'tmr-edit-repeat-count
   "r" #'tmr-remove
   "R" #'tmr-remove-finished
   "k" #'tmr-cancel
@@ -1101,6 +1131,7 @@ This map should be bound to a global prefix key."
   "P" #'tmr-toggle-pause
   "a" #'tmr-toggle-acknowledge
   "e" #'tmr-edit-description
+  "E" #'tmr-edit-repeat-count
   "R" #'tmr-remove-finished
   "r" #'tmr-remove
   "k" #'tmr-remove)
@@ -1168,7 +1199,6 @@ they are set to reasonable default values."
          ('duration (propertize (tmr--format-duration timer) 'face 'tmr-duration))
          ('remaining (propertize (tmr--format-remaining timer) 'face 'tmr-tabulated-remaining-time))
          ('paused (propertize (if (tmr--timer-paused-remaining timer) "Yes" "") 'face 'tmr-tabulated-paused))
-         ('repeatable (propertize (if (tmr--timer-original-repeat-count timer) "Yes" "") 'face 'tmr-repeat-count))
          ('remaining-repeats (propertize (if (tmr--timer-original-repeat-count timer) (number-to-string (tmr--timer-repeat-count timer)) "") 'face 'tmr-repeat-count))
          ('total-repeats (propertize (if (tmr--timer-original-repeat-count timer) (number-to-string (tmr--timer-original-repeat-count timer)) "") 'face 'tmr-repeat-count))
          ('acknowledge (propertize (if (tmr--timer-acknowledgep timer) "Yes" "") 'face 'tmr-tabulated-acknowledgement))
@@ -1192,9 +1222,10 @@ they are set to reasonable default values."
                             (with-selected-window win
                               (let ((end (eobp)))
                                 ;; Optimized refreshing
-                                (dolist (entry tabulated-list-entries)
-                                  (setf (aref (cadr entry) 3)
-                                        (propertize (tmr--format-remaining (car entry)) 'face 'tmr-tabulated-remaining-time)))
+                                (when-let* ((remaining-index (seq-position (tmr-tabulated--get-columns) 'remaining)))
+                                  (dolist (entry tabulated-list-entries)
+                                    (setf (aref (cadr entry) remaining-index)
+                                          (propertize (tmr--format-remaining (car entry)) 'face 'tmr-tabulated-remaining-time))))
                                 (tabulated-list-print t)
                                 (when end (goto-char (point-max))))
                               ;; HACK: For some reason the hl-line highlighting gets lost here
@@ -1228,7 +1259,6 @@ they are set to reasonable default values."
                     ('duration '("Duration" 10 t))
                     ('remaining '("Remaining" 10 tmr-tabulated--compare-remaining))
                     ('paused '("Paused?" 8 t))
-                    ('repeatable '("Repeatable" 12 t))
                     ('remaining-repeats '("Remaining Repeats" 18 t))
                     ('total-repeats '("Total repeats" 15 t))
                     ('acknowledge '("Acknowledge?" 14 t))
@@ -1249,7 +1279,8 @@ they are set to reasonable default values."
   (when-let* ((buf (get-buffer "*tmr-tabulated-view*")))
     (with-current-buffer buf
       (let ((lines (line-number-at-pos)))
-        (revert-buffer)
+        (tmr-tabulated--set-entries)
+        (tabulated-list-print t)
         (when (and (bobp) (> lines 1))
           (forward-line (1- lines))
           (unless (tabulated-list-get-id)
