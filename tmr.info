@@ -57,6 +57,7 @@ as such.
 Installation
 
 * GNU ELPA package::
+* Debian package::
 * Manual installation::
 
 Grid or tabulated view
@@ -101,10 +102,11 @@ File: tmr.info,  Node: Installation,  Next: Sample configuration,  Prev: COPYING
 * Menu:
 
 * GNU ELPA package::
+* Debian package::
 * Manual installation::
 
 
-File: tmr.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: tmr.info,  Node: GNU ELPA package,  Next: Debian package,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -123,9 +125,19 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: tmr.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: tmr.info,  Node: Debian package,  Next: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
-2.2 Manual installation
+2.2 Debian package
+==================
+
+As of 2026-08-07, Debian ‘sid’ provides the ‘elpa-tmr’ package:
+<https://packages.debian.org/sid/elpa-tmr>.  It will be part of Debian
+‘forky’, once that becomes stable.
+
+
+File: tmr.info,  Node: Manual installation,  Prev: Debian package,  Up: Installation
+
+2.3 Manual installation
 =======================
 
 Assuming your Emacs files are found in ‘~/.emacs.d/’, execute the
@@ -623,6 +635,9 @@ Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
      Quintana, Mirko Hernandez, Nathan R.  DeGruchy, Pavlo Lysov, f6p,
      jpg.
+
+Packaging
+     Nicholas D Steeves (Debian).
 
 
 File: tmr.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
@@ -1140,31 +1155,32 @@ File: tmr.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 Tag Table:
 Node: Top211
-Node: COPYING2109
-Node: Installation2835
-Node: GNU ELPA package3015
-Node: Manual installation3567
-Node: Sample configuration4318
-Node: How to specify the duration of a new timer4809
-Node: Create a new timer5923
-Node: Commands that act on timers8150
-Node: Grid or tabulated view11133
-Node: Control how frequently the tabulated view is refreshed for the remaining time13281
-Node: Specify how the tabulated view is displayed in a window14058
-Node: Control the visible columns of the tabulated view15235
-Node: Faces specifically used in the tabulated view16435
-Node: Display timers on the mode line17246
-Node: Hooks18839
-Node: The timer prompt21015
-Node: Sound and desktop notifications21600
-Node: Minibuffer histories22645
-Node: Integration with Embark23342
-Node: Acknowledgements23807
-Node: GNU Free Documentation License24371
-Node: Indices49509
-Node: Function index49681
-Node: Variable index49800
-Node: Concept index49941
+Node: COPYING2128
+Node: Installation2854
+Node: GNU ELPA package3053
+Node: Debian package3600
+Node: Manual installation3935
+Node: Sample configuration4684
+Node: How to specify the duration of a new timer5175
+Node: Create a new timer6289
+Node: Commands that act on timers8516
+Node: Grid or tabulated view11499
+Node: Control how frequently the tabulated view is refreshed for the remaining time13647
+Node: Specify how the tabulated view is displayed in a window14424
+Node: Control the visible columns of the tabulated view15601
+Node: Faces specifically used in the tabulated view16801
+Node: Display timers on the mode line17612
+Node: Hooks19205
+Node: The timer prompt21381
+Node: Sound and desktop notifications21966
+Node: Minibuffer histories23011
+Node: Integration with Embark23708
+Node: Acknowledgements24173
+Node: GNU Free Documentation License24782
+Node: Indices49920
+Node: Function index50092
+Node: Variable index50211
+Node: Concept index50352
 
 End Tag Table
 
