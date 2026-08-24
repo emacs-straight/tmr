@@ -234,8 +234,8 @@ description and whether the timer should be acknowledged or not.
    The ‘tmr-repeat’ is like ‘tmr’ though also prompts for a number of
 repetitions repeat count.  This means that the specified timer will run
 that many times.  When called with a prefix argument (‘C-u’ with default
-keybindings) it asks for a description and whether timer should be
-acknowledged or not once all repetitions are done.
+keybindings) it asks for a description and whether each timer repetition
+should be acknowledged before starting the next.
 
    When the timer is set, a message is sent to the echo area recording
 the current time and the point in the future when the timer elapses.
@@ -634,7 +634,7 @@ Authors
 Contributions to the code or manual
      Christian Tietze, Ed Tavinor, Eugene Mikhaylov, Karol Mróz, Lucas
      Quintana, Mirko Hernandez, Nathan R.  DeGruchy, Pavlo Lysov, f6p,
-     jpg.
+     jpg, purdobol.
 
 Packaging
      Nicholas D Steeves (Debian).
@@ -1163,24 +1163,24 @@ Node: Manual installation3935
 Node: Sample configuration4684
 Node: How to specify the duration of a new timer5175
 Node: Create a new timer6289
-Node: Commands that act on timers8516
-Node: Grid or tabulated view11499
-Node: Control how frequently the tabulated view is refreshed for the remaining time13647
-Node: Specify how the tabulated view is displayed in a window14424
-Node: Control the visible columns of the tabulated view15601
-Node: Faces specifically used in the tabulated view16801
-Node: Display timers on the mode line17612
-Node: Hooks19205
-Node: The timer prompt21381
-Node: Sound and desktop notifications21966
-Node: Minibuffer histories23011
-Node: Integration with Embark23708
-Node: Acknowledgements24173
-Node: GNU Free Documentation License24782
-Node: Indices49920
-Node: Function index50092
-Node: Variable index50211
-Node: Concept index50352
+Node: Commands that act on timers8520
+Node: Grid or tabulated view11503
+Node: Control how frequently the tabulated view is refreshed for the remaining time13651
+Node: Specify how the tabulated view is displayed in a window14428
+Node: Control the visible columns of the tabulated view15605
+Node: Faces specifically used in the tabulated view16805
+Node: Display timers on the mode line17616
+Node: Hooks19209
+Node: The timer prompt21385
+Node: Sound and desktop notifications21970
+Node: Minibuffer histories23015
+Node: Integration with Embark23712
+Node: Acknowledgements24177
+Node: GNU Free Documentation License24796
+Node: Indices49934
+Node: Function index50106
+Node: Variable index50225
+Node: Concept index50366
 
 End Tag Table
 
